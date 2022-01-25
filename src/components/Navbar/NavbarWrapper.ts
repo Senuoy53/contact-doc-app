@@ -67,6 +67,7 @@ export const NavbarWrapper = styled.header`
 
   .login-form .btn {
     margin: 0.5rem 0;
+    padding: 0.8rem 3rem;
     width: 100%;
     text-align: center;
   }

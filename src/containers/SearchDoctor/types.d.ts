@@ -1,0 +1,3 @@
+interface PageSelected {
+  selected: number;
+}
