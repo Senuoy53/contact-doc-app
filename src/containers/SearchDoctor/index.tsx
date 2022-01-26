@@ -12,6 +12,7 @@ const SearchDoctor = () => {
   const [items, setItems] = useState<Doctors[]>([]);
   const [loading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(0);
+  // const [nbr, setNbr] = useState(0);
 
   let limit = 5;
 
@@ -45,16 +46,16 @@ const SearchDoctor = () => {
       `http://localhost:3004/docteurs?_page=${currentPage}&_limit=${limit}`
     );
     const data = await res.json();
+
     return data;
   };
 
   // handlePageClick
   const handlePageClick = async (data: PageSelected) => {
-    console.log(data.selected);
-
     let currentPage = data.selected + 1;
 
     const doctorsFromServer = await fetchDoctors(currentPage);
+
     setItems(doctorsFromServer);
   };
 
@@ -93,6 +94,9 @@ const SearchDoctor = () => {
           <p className="loading">Loading...</p>
         ) : (
           items.map((item, index) => {
+            // setNbr(nbr + 1);
+            // console.log("items length", items.length);
+
             return <DoctorItem key={index} {...item} nbr={index + 1} />;
           })
         )}

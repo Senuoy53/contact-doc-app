@@ -9,8 +9,10 @@ export const DoctorItemWrapper = styled.div`
   padding: 80px 30px;
   display: flex;
   align-items: center;
+  gap: 20%;
   border-radius: 10px;
   transition: all 0.5s ease;
+  text-transform: capitalize;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.GreenBgColor};
@@ -30,7 +32,7 @@ export const DoctorItemWrapper = styled.div`
     font-weight: 600;
   }
   .left {
-    flex: 3;
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -71,10 +73,14 @@ export const DoctorItemWrapper = styled.div`
     gap: 20px;
     width: 100px;
     height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
   }
   .img-box {
-    width: 100px;
-    height: 100px;
+    flex: 1;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -84,5 +90,12 @@ export const DoctorItemWrapper = styled.div`
 
   .img-box img {
     width: 100%;
+  }
+
+  .specialite {
+    flex: 2;
+  }
+  .specialite p {
+    margin-top: 8px;
   }
 `;

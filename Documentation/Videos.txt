@@ -1,0 +1,8 @@
+- React js Pagination With API Call Using React-paginate :
+
+https://www.youtube.com/watch?v=kMuRr53RjcE
+
+
+- Searching/filtering a Datatable in [React] (React Hooks Api, React Datatables, JavaScript Fetch API)  :
+
+https://www.youtube.com/watch?v=d1r0aK5awWk

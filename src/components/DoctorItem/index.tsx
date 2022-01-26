@@ -3,6 +3,7 @@ import { DoctorItemWrapper } from "./DoctorItemWrapper";
 const DoctorItem = ({
   nbr,
   nom,
+  specialite,
   tel,
   adresse,
   photo,
@@ -35,6 +36,10 @@ const DoctorItem = ({
       </div>
 
       <div className="right">
+        <div className="specialite">
+          <span>Spécialité : </span>
+          <p>{specialite}</p>
+        </div>
         {/* <div className="img-box"> */}
 
         <img className="img-box" src={photo} />

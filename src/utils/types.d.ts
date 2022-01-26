@@ -3,6 +3,7 @@ interface Doctors {
   nom: string;
   email: string;
   password: string;
+  specialite: string;
   tel: string;
   adresse: string;
   siteweb: string;
@@ -10,4 +11,5 @@ interface Doctors {
   diplomes: string;
   photo?: string;
   ville: string;
+  nbr?: number;
 }
