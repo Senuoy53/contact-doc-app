@@ -1,10 +1,10 @@
 interface DoctorsItemProps {
-  nbr: number;
-  nom: string;
-  email: string;
+  nbr?: number;
+  nom: string | undefined;
+  email?: string | undefined;
   specialite: string;
   tel: string;
-  adresse: string;
+  adresse?: string;
   photo?: string;
   ville: string;
 }

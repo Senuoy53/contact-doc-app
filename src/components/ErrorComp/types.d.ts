@@ -1,0 +1,3 @@
+interface ErrorCompProps {
+  children: string;
+}

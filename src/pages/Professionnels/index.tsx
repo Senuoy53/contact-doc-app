@@ -1,16 +1,15 @@
 import Footer from "../../components/Footer";
 import Heading from "../../components/Heading";
 import Navbar from "../../components/Navbar";
-import SearchDoctor from "../../containers/SearchDoctor";
 // Toastify link : for error's messages
 import { ToastContainer } from "react-toastify";
+import ProfessionnelsContainer from "../../containers/ProfessionnelsContainer";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect } from "react";
 import { currentUser } from "../../services/firebaseService";
 import { auth } from "../../firebase";
-import { useEffect } from "react";
 
-const Home = () => {
+const Professionsels = () => {
   const history = useNavigate();
 
   useEffect(() => {
@@ -19,14 +18,13 @@ const Home = () => {
 
   return (
     <>
-      {/* {console.log("current User ", auth.currentUser)} */}
       <ToastContainer />
       <Navbar />
       <Heading />
-      <SearchDoctor />
+      <ProfessionnelsContainer />
       <Footer />
     </>
   );
 };
 
-export default Home;
+export default Professionsels;

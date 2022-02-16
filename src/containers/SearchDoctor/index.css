@@ -129,8 +129,8 @@ section {
   pointer-events: none;
 }
 
-.PaginationSection .loading {
+/* .PaginationSection .loading {
   margin: 50px;
   text-align: center;
   color: #55b566;
-}
+} */
