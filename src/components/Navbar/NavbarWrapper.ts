@@ -72,18 +72,18 @@ export const NavbarWrapper = styled.header`
     text-align: center;
   }
 
-  .login-form p {
+  .login-form #messageInfo {
     color: ${({ theme }) => theme.colors.Gray};
     padding-top: 1rem;
     font-size: 1rem;
     text-transform: capitalize;
   }
 
-  .login-form p a {
+  .login-form #messageInfo a {
     color: ${({ theme }) => theme.colors.GreenBgColor};
   }
 
-  .login-form p a:hover {
+  .login-form #messageInfo a:hover {
     text-decoration: underline;
   }
 
@@ -125,6 +125,19 @@ export const Icons = styled.div`
   color: #666;
 
   #login-btn {
+    cursor: pointer;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  #logout {
+    color: #666;
+    border: none;
+    font-size: 20px;
+    background-color: transparent;
+    margin-left: 10px;
     cursor: pointer;
 
     &:hover {

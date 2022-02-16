@@ -1,4 +1,5 @@
 import { DoctorItemWrapper } from "./DoctorItemWrapper";
+import profil from "../../assets/imgs/profil.png";
 
 const DoctorItem = ({
   nbr,
@@ -50,8 +51,8 @@ const DoctorItem = ({
 };
 
 DoctorItem.defaultProps = {
-  photo:
-    "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260.jpg",
+  photo: profil,
+  // "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260.jpg",
 };
 
 export default DoctorItem;

@@ -6,3 +6,20 @@ https://www.youtube.com/watch?v=kMuRr53RjcE
 - Searching/filtering a Datatable in [React] (React Hooks Api, React Datatables, JavaScript Fetch API)  :
 
 https://www.youtube.com/watch?v=d1r0aK5awWk
+
+- Custom select box with search bar using HTML, CSS & JS || complete code 
+
+https://www.youtube.com/watch?v=jtoMac3cvS8
+
+- React Image Preview - Previewing Image before file upload in React :   ok
+
+https://www.youtube.com/watch?v=o2nmgbZaGMw
+
+- Image Previews in React with FileReader :
+
+https://www.youtube.com/watch?v=BPUgM1Ig4Po
+
+-React Image Upload Made Easy :
+
+https://www.youtube.com/watch?v=XeiOnkEI7XI
+

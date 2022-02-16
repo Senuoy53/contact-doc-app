@@ -2,14 +2,19 @@ import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import Button from "../../components/Button";
 import DoctorItem from "../../components/DoctorItem";
+import { Doctor } from "../../utils/types";
+import { PageSelected } from "./types";
 // import { SearchDoctorWrapper } from "./SearchDoctorWrapper";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faUserMd } from "@fortawesome/free-solid-svg-icons";
 
 import "./index.css";
+import { currentUser } from "../../services/firebaseService";
+import { auth } from "../../firebase";
+import Loading from "../../components/Loading";
 
 const SearchDoctor = () => {
-  const [items, setItems] = useState<Doctors[]>([]);
+  const [items, setItems] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(0);
   // const [nbr, setNbr] = useState(0);
@@ -61,7 +66,11 @@ const SearchDoctor = () => {
 
   return (
     // <SearchDoctorWrapper>
+
     <section>
+      {/* {console.log("current User ", auth)} */}
+      {/* {console.log("current uid searchPage", auth.currentUser?.uid)} */}
+
       <form className="searchForm">
         <input
           type="text"
@@ -91,13 +100,20 @@ const SearchDoctor = () => {
       </form>
       <section className="PaginationSection">
         {loading ? (
-          <p className="loading">Loading...</p>
+          <Loading />
         ) : (
           items.map((item, index) => {
             // setNbr(nbr + 1);
             // console.log("items length", items.length);
 
-            return <DoctorItem key={index} {...item} nbr={index + 1} />;
+            return (
+              <DoctorItem
+                key={index}
+                {...item}
+                nom={item.nom}
+                nbr={index + 1}
+              />
+            );
           })
         )}
 

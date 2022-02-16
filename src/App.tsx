@@ -5,6 +5,10 @@ import GlobalStyle from "./styles/global-styles";
 // Theme provider for css variable styled component
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/global-styles";
+import Register from "./pages/Register";
+import Professionsels from "./pages/Professionnels";
+import Contact from "./pages/Contact";
+import { auth } from "./firebase";
 
 const App = () => {
   return (
@@ -14,6 +18,9 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/professionnels" element={<Professionsels />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
