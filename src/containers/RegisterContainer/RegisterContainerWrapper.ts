@@ -71,6 +71,13 @@ const RegisterContainerWrapper = styled.section`
 
   textarea {
     resize: none;
+    line-height: 2;
+  }
+
+  .horaire {
+    padding: 10px;
+    outline-color: ${({ theme }) => theme.colors.GreenBgColor};
+    border: 0.1rem solid rgba(0, 0, 0, 0.1);
   }
 
   .t-right {

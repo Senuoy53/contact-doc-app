@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { theme } from "../../styles/global-styles";
 
 const ProfessionnelsContainerWrapper = styled.section`
   padding: 1.5rem 9%;
@@ -71,6 +72,13 @@ const ProfessionnelsContainerWrapper = styled.section`
 
   textarea {
     resize: none;
+    line-height: 2;
+  }
+
+  .horaire {
+    padding: 10px;
+    outline-color: ${({ theme }) => theme.colors.GreenBgColor};
+    border: 0.1rem solid rgba(0, 0, 0, 0.1);
   }
 
   .t-right {
@@ -126,11 +134,23 @@ const ProfessionnelsContainerWrapper = styled.section`
     width: 100%;
   }
 
+  .register-form .buttons {
+    display: flex;
+  }
+
   .register-form .btn {
-    width: 50%;
+    flex-basis: 30%;
+    /* width: 50%; */
     /* justify-content: space-around; */
     padding: 0.8rem 3rem;
     margin: 25px auto 0px auto;
+  }
+
+  .register-form .delete {
+    background: ${theme.colors.red};
+    &:hover {
+      background: ${({ theme }) => theme.colors.Gray};
+    }
   }
 `;
 

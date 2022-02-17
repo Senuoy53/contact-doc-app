@@ -9,6 +9,7 @@ import { storage } from "../../firebase";
 import { collections } from "../../utils/constants";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { HoraireData } from "../../utils/constants";
 
 const RegisterContainer = () => {
   const [profileImg, setProfileImg] = useState<any>(profil);
@@ -23,7 +24,7 @@ const RegisterContainer = () => {
     adresse: "",
     siteweb: "",
     photo: "",
-    ouverture: "",
+    ouverture: HoraireData.placeholder,
     diplomes: "",
   };
   const [formValues, setFormValues] = useState(initialValues);
@@ -51,7 +52,7 @@ const RegisterContainer = () => {
         // console.log(reader.result);
         setProfileImg(reader.result as string);
         setImageFile(e.target.files[0]);
-        console.log(e.target.files[0]);
+        // console.log(e.target.files[0]);
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -62,6 +63,7 @@ const RegisterContainer = () => {
     //  to stop loading the page
     e.preventDefault();
     setProfileImg(profil);
+    setImageFile("");
   };
 
   //   HandleChange Funtion
@@ -93,7 +95,7 @@ const RegisterContainer = () => {
           password: formValues.password,
         })
           .then((res) => {
-            console.log("resss sccess", res);
+            // console.log("resss sccess", res);
             id = res.user?.uid;
 
             // Create a doctor on firebase
@@ -365,15 +367,17 @@ const RegisterContainer = () => {
           </div>
         </div>
         {/* Center */}
-        <h5 className="sub-header">Horaire d'ouverture</h5>
+        <h5 className="sub-header">Horaires d'ouverture</h5>
         <div className="center">
           <div className="input-box">
             {/* <label htmlFor="">Adresse :</label> */}
             <textarea
               name="ouverture"
               id="ouverture"
-              className="box"
-              placeholder=" Horaire d'ouverture"
+              className="horaire"
+              placeholder={HoraireData.placeholder}
+              rows={7}
+              cols={40}
               value={formValues.ouverture}
               onChange={handleChange}
             ></textarea>
@@ -390,7 +394,9 @@ const RegisterContainer = () => {
               rows={8}
               value={formValues.diplomes}
               onChange={handleChange}
-            ></textarea>
+            >
+              test
+            </textarea>
           </div>
         </div>
         <Button
@@ -399,6 +405,7 @@ const RegisterContainer = () => {
           className="btn"
           onClick={handleClick}
         />
+
         {/* </div> */}
       </form>
     </RegisterContainerWrapper>

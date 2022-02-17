@@ -99,8 +99,7 @@ const Navbar = () => {
         .then((res) => {
           getOne(res.user?.uid).then((querySnapshot) => {
             querySnapshot?.forEach((doc) => {
-              // doc.data() is never undefined for query doc snapshots
-              console.log(doc.id, " => ", doc.data());
+              // console.log(doc.id, " => ", doc.data());
 
               // Fermer login form
               setToggleLogin(!toggleLogin);
@@ -128,11 +127,6 @@ const Navbar = () => {
         toast.error(err.message);
       });
   };
-
-  // useEffect(() => {
-  //   setCurrentUser(auth);
-  //   console.log("current user: ", currentUser);
-  // }, [currentUser]);
 
   return (
     <NavbarWrapper>

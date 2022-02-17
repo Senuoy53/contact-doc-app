@@ -12,6 +12,7 @@ import { createStructuredSelector } from "reselect";
 import { makeSelectDoctorsData } from "../SearchDoctor/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Loading";
+import { HoraireData } from "../../utils/constants";
 
 const doctorsState = createStructuredSelector({
   doctors: makeSelectDoctorsData(),
@@ -28,7 +29,7 @@ const ProfessionnelsContainer = () => {
     tel: "",
     adresse: "",
     siteweb: "",
-    ouverture: "",
+    ouverture: HoraireData.placeholder,
     diplomes: "",
   };
   const [formValues, setFormValues] = useState(initialValues);
@@ -70,7 +71,7 @@ const ProfessionnelsContainer = () => {
             ouverture: doc.data().ouverture,
             diplomes: doc.data().diplomes,
           });
-          console.log("profileImg", doc.data().photo);
+          // console.log("profileImg", doc.data().photo);
           if (doc.data().photo) {
             setProfileImg(doc.data().photo);
           }
@@ -79,7 +80,7 @@ const ProfessionnelsContainer = () => {
         });
       })
       .catch((err) => {
-        alert(err.message);
+        toast.error(err.message);
       });
   }, []);
 
@@ -91,7 +92,7 @@ const ProfessionnelsContainer = () => {
         // console.log(reader.result);
         setProfileImg(reader.result as string);
         setImageFile(e.target.files[0]);
-        console.log(e.target.files[0]);
+        // console.log(e.target.files[0]);
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -102,6 +103,7 @@ const ProfessionnelsContainer = () => {
     //  to stop loading the page
     e.preventDefault();
     setProfileImg(profil);
+    setImageFile("");
   };
 
   //   HandleChange Funtion
@@ -126,7 +128,7 @@ const ProfessionnelsContainer = () => {
 
       // ======= Check if image is not selected =======
       if (!imageFile) {
-        console.log("imagefile null", imageFile);
+        // console.log("imagefile null", imageFile);
         // Update
         update(docId, {
           specialite: formValues.specialite,
@@ -134,18 +136,19 @@ const ProfessionnelsContainer = () => {
           tel: formValues.tel,
           adresse: formValues.adresse,
           siteweb: formValues.siteweb,
+          photo: "",
           ouverture: formValues.ouverture,
           diplomes: formValues.diplomes,
         })
           .then((res) => {
-            console.log("updateeeeeeeeeeeeeee", docId);
+            // console.log("updateeeeeeeeeeeeeee", docId);
             toast.success("User Modified");
           })
           .catch((err) => {
             alert(err.message);
           });
       } else {
-        console.log("imagefile ", imageFile);
+        // console.log("imagefile ", imageFile);
 
         // upload photo to firebase storage
         const uploadPhoto = storage
@@ -155,14 +158,15 @@ const ProfessionnelsContainer = () => {
           "state_changed",
           (snapshot) => {},
           (error) => {
-            console.log(error);
+            toast.error(error.message);
+            // console.log(error);
           },
           () => {
             storage
               .ref(`${collections.doctors}/${auth.currentUser?.uid}/image`)
               .getDownloadURL()
               .then((url) => {
-                console.log(url);
+                // console.log(url);
                 update(docId, {
                   specialite: formValues.specialite,
                   ville: formValues.ville,
@@ -174,17 +178,24 @@ const ProfessionnelsContainer = () => {
                   diplomes: formValues.diplomes,
                 })
                   .then((res) => {
-                    console.log("updateeeeeeeeeeeeeee", docId);
+                    // console.log("updateeeeeeeeeeeeeee", docId);
                     toast.success("User Modified");
                   })
                   .catch((err) => {
-                    alert(err.message);
+                    toast.error(err.message);
+                    // alert(err.message);
                   });
               });
           }
         );
       }
     }
+  };
+
+  // Delete Click
+  const deleteClick = (e: any) => {
+    //  to stop loading the page
+    e.preventDefault();
   };
 
   //   ValidateForm Funtion
@@ -211,7 +222,7 @@ const ProfessionnelsContainer = () => {
       {/* {console.log("current uid ProfessionnelPage", auth.currentUser?.uid)} */}
 
       <form className="register-form">
-        <h3>Update form</h3>
+        <h3>professionals form</h3>
         {/* <div className="part"> */}
         <h5 className="sub-header">Informations personnelles</h5>
         {/* Top */}
@@ -342,15 +353,17 @@ const ProfessionnelsContainer = () => {
           </div>
         </div>
         {/* Center */}
-        <h5 className="sub-header">Horaire d'ouverture</h5>
+        <h5 className="sub-header">Horaires d'ouverture</h5>
         <div className="center">
           <div className="input-box">
             {/* <label htmlFor="">Adresse :</label> */}
             <textarea
               name="ouverture"
               id="ouverture"
-              className="box"
-              placeholder=" Horaire d'ouverture"
+              className="horaire"
+              placeholder={HoraireData.placeholder}
+              rows={7}
+              cols={40}
               value={formValues.ouverture}
               onChange={handleChange}
             ></textarea>
@@ -370,12 +383,21 @@ const ProfessionnelsContainer = () => {
             ></textarea>
           </div>
         </div>
-        <Button
-          type="submit"
-          value="Update"
-          className="btn"
-          onClick={handleClick}
-        />
+        <div className="buttons">
+          <Button
+            type="submit"
+            value="Update"
+            className="btn"
+            onClick={handleClick}
+          />
+          <Button
+            type="submit"
+            value="Delete"
+            className="btn delete"
+            onClick={deleteClick}
+          />
+        </div>
+
         {/* </div> */}
       </form>
     </ProfessionnelsContainerWrapper>
@@ -383,5 +405,3 @@ const ProfessionnelsContainer = () => {
 };
 
 export default ProfessionnelsContainer;
-
-// --------------------------------------------
