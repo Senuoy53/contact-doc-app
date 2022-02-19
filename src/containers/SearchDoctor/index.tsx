@@ -9,9 +9,18 @@ import { PageSelected } from "./types";
 // import { faUserMd } from "@fortawesome/free-solid-svg-icons";
 
 import "./index.css";
-import { currentUser } from "../../services/firebaseService";
+import { currentUser, firebaseService } from "../../services/firebaseService";
 import { auth } from "../../firebase";
 import Loading from "../../components/Loading";
+import { createStructuredSelector } from "reselect";
+import { makeSelectDoctorsData } from "./selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { collections } from "../../utils/constants";
+import { setDoctors } from "./actions";
+
+const doctorsState = createStructuredSelector({
+  doctors: makeSelectDoctorsData(),
+});
 
 const SearchDoctor = () => {
   const [items, setItems] = useState<Doctor[]>([]);
@@ -19,25 +28,47 @@ const SearchDoctor = () => {
   const [pageCount, setPageCount] = useState(0);
   // const [nbr, setNbr] = useState(0);
 
+  // Selectors
+  const { doctors } = useSelector(doctorsState);
+  const { getAll } = firebaseService(collections.doctors);
+
+  const dispatch = useDispatch();
+
+  const onDataChange = (items: any) => {
+    let doctors: Doctor[] = [];
+
+    items.docs.forEach((item: any) => {
+      let data = item.data();
+      doctors.push({
+        ...data,
+      });
+    });
+
+    dispatch(setDoctors(doctors));
+  };
+  useEffect(() => {
+    getAll().onSnapshot(onDataChange);
+  }, []);
+
   let limit = 5;
 
   // useEffect
-  useEffect(() => {
-    const getDocteurs = async () => {
-      setLoading(true);
-      const res = await fetch(
-        `http://localhost:3004/docteurs?_page=1&_limit=${limit}`
-      );
-      const data = await res.json();
-      const total: any = res.headers.get("x-total-count");
-      setPageCount(Math.ceil(total / limit));
-      setItems([...data]);
-      setLoading(false);
-    };
+  // useEffect(() => {
+  //   const getDocteurs = async () => {
+  //     setLoading(true);
+  //     const res = await fetch(
+  //       `http://localhost:3004/docteurs?_page=1&_limit=${limit}`
+  //     );
+  //     const data = await res.json();
+  //     const total: any = res.headers.get("x-total-count");
+  //     setPageCount(Math.ceil(total / limit));
+  //     setItems([...data]);
+  //     setLoading(false);
+  //   };
 
-    // Appel de la fonction
-    getDocteurs();
-  }, []);
+  //   // Appel de la fonction
+  //   getDocteurs();
+  // }, []);
 
   // HandleClick
   const handleClick = (e: any) => {
@@ -46,23 +77,23 @@ const SearchDoctor = () => {
   };
 
   // FetchDoctors
-  const fetchDoctors = async (currentPage: number) => {
-    const res = await fetch(
-      `http://localhost:3004/docteurs?_page=${currentPage}&_limit=${limit}`
-    );
-    const data = await res.json();
+  // const fetchDoctors = async (currentPage: number) => {
+  //   const res = await fetch(
+  //     `http://localhost:3004/docteurs?_page=${currentPage}&_limit=${limit}`
+  //   );
+  //   const data = await res.json();
 
-    return data;
-  };
+  //   return data;
+  // };
 
   // handlePageClick
-  const handlePageClick = async (data: PageSelected) => {
-    let currentPage = data.selected + 1;
+  // const handlePageClick = async (data: PageSelected) => {
+  //   let currentPage = data.selected + 1;
 
-    const doctorsFromServer = await fetchDoctors(currentPage);
+  //   const doctorsFromServer = await fetchDoctors(currentPage);
 
-    setItems(doctorsFromServer);
-  };
+  //   setItems(doctorsFromServer);
+  // };
 
   return (
     // <SearchDoctorWrapper>
@@ -84,10 +115,12 @@ const SearchDoctor = () => {
             <option value="Choisir une ville" disabled>
               Choisir une ville
             </option>
-            <option value="casablanca">Casablanca</option>
-            <option value="tetouan">Tétouan</option>
-            <option value="rabat">Rabat</option>
-            <option value="tanger">Tanger</option>
+
+            {Array.from(
+              new Set(doctors.map((item: Doctor, index: number) => item.ville))
+            ).map((ville) => {
+              return <option value={ville}>{ville}</option>;
+            })}
           </select>
         </div>
         <Button
@@ -117,7 +150,7 @@ const SearchDoctor = () => {
           })
         )}
 
-        <ReactPaginate
+        {/* <ReactPaginate
           previousLabel={"Précédent"}
           nextLabel={"Suivant"}
           breakLabel={"..."}
@@ -135,7 +168,7 @@ const SearchDoctor = () => {
           breakLinkClassName={"page-link"}
           activeClassName={"active"}
           disabledClassName={"unactive"}
-        />
+        /> */}
       </section>
     </section>
   );

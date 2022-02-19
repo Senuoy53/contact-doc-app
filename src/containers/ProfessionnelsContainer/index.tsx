@@ -17,6 +17,7 @@ import Loading from "../../components/Loading";
 import { HoraireData } from "../../utils/constants";
 import ValidationMessage from "../../components/ValidationMessage";
 import { useNavigate } from "react-router-dom";
+import { setDoctors } from "../SearchDoctor/actions";
 
 const doctorsState = createStructuredSelector({
   doctors: makeSelectDoctorsData(),
@@ -36,7 +37,8 @@ const ProfessionnelsContainer = () => {
     ouverture: HoraireData.placeholder,
     diplomes: "",
   };
-  const [formValues, setFormValues] = useState(initialValues);
+  const [formValues, setFormValues] =
+    useState<InitialValuesTypes>(initialValues);
   const [formErrors, setFormErrors] = useState<ProfessionnelsTypes>({
     specialite: "",
     ville: "",
@@ -47,6 +49,9 @@ const ProfessionnelsContainer = () => {
   const { doctors } = useSelector(doctorsState);
   const { getOne, update, remove } = firebaseService(collections.doctors);
   const { deleteUser } = firebaseAuth();
+
+  // disptach
+  const dispatch = useDispatch();
 
   // docId
   const [docId, setDocId] = useState<string | undefined>();
@@ -70,24 +75,47 @@ const ProfessionnelsContainer = () => {
     setLoading(true);
     getOne(auth.currentUser?.uid)
       .then((querySnapshot) => {
-        querySnapshot?.forEach((doc) => {
+        querySnapshot?.forEach((doc: any) => {
           // Get th docID
           setDocId(doc.id);
 
           // Get the uid
           setUid(doc.data().uid);
 
-          setFormValues({
-            nom: doc.data().nom,
-            email: doc.data().email,
-            specialite: doc.data().specialite,
-            ville: doc.data().ville,
-            tel: doc.data().tel,
-            adresse: doc.data().adresse,
-            siteweb: doc.data().siteweb,
-            ouverture: doc.data().ouverture,
-            diplomes: doc.data().diplomes,
+          // update doctor global state
+          let doctors: Doctor[] = [];
+          let data = doc.data();
+
+          doctors.push({ ...data });
+          // console.log("doctor : ", doctors);
+          dispatch(setDoctors(doctors));
+
+          doctors.map((item) => {
+            setFormValues({
+              // nom: doc.data().nom,
+              nom: item.nom,
+              email: item.email,
+              specialite: item.specialite,
+              ville: item.ville,
+              tel: item.tel,
+              adresse: item.adresse,
+              siteweb: item.siteweb,
+              ouverture: item.ouverture,
+              diplomes: item.diplomes,
+            });
           });
+          // setFormValues({
+          //   // nom: doc.data().nom,
+          //   nom: doctors.nom,
+          //   email: doc.data().email,
+          //   specialite: doc.data().specialite,
+          //   ville: doc.data().ville,
+          //   tel: doc.data().tel,
+          //   adresse: doc.data().adresse,
+          //   siteweb: doc.data().siteweb,
+          //   ouverture: doc.data().ouverture,
+          //   diplomes: doc.data().diplomes,
+          // });
           // console.log("profileImg", doc.data().photo);
           if (doc.data().photo) {
             setProfileImg(doc.data().photo);
