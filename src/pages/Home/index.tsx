@@ -11,11 +11,11 @@ import { auth } from "../../firebase";
 import { useEffect } from "react";
 
 const Home = () => {
-  const history = useNavigate();
+  // const history = useNavigate();
 
-  useEffect(() => {
-    if (!currentUser()) history("/");
-  }, []);
+  // useEffect(() => {
+  //   if (!currentUser()) history("/home");
+  // }, []);
 
   return (
     <>

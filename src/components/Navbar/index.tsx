@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Icons, MenuBtn, Nav, NavbarWrapper } from "./NavbarWrapper";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -99,8 +99,7 @@ const Navbar = () => {
         .then((res) => {
           getOne(res.user?.uid).then((querySnapshot) => {
             querySnapshot?.forEach((doc) => {
-              // doc.data() is never undefined for query doc snapshots
-              console.log(doc.id, " => ", doc.data());
+              // console.log(doc.id, " => ", doc.data());
 
               // Fermer login form
               setToggleLogin(!toggleLogin);
@@ -129,11 +128,6 @@ const Navbar = () => {
       });
   };
 
-  // useEffect(() => {
-  //   setCurrentUser(auth);
-  //   console.log("current user: ", currentUser);
-  // }, [currentUser]);
-
   return (
     <NavbarWrapper>
       <Link to="/home" className="logo">
@@ -142,10 +136,11 @@ const Navbar = () => {
       </Link>
 
       <Nav>
-        <Link to="/home">Home</Link>
-        {auth.currentUser && <Link to="/professionnels">Professionnels</Link>}
-
-        <Link to="/contact">Contact</Link>
+        <NavLink to="/home">Home</NavLink>
+        {auth.currentUser && (
+          <NavLink to="/professionnels">Professionnels</NavLink>
+        )}
+        <NavLink to="/contact">Contact</NavLink>
       </Nav>
 
       <Icons>

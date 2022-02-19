@@ -10,11 +10,11 @@ import { currentUser } from "../../services/firebaseService";
 import { auth } from "../../firebase";
 
 const Professionsels = () => {
-  const history = useNavigate();
+  // const history = useNavigate();
 
-  useEffect(() => {
-    if (!currentUser()) history("/");
-  }, []);
+  // useEffect(() => {
+  //   if (!currentUser()) history("/home");
+  // }, []);
 
   return (
     <>

@@ -16,15 +16,11 @@ const firebaseService = (collectionName: string) => {
     return db.where("uid", "==", uid).get();
   };
 
-  // const update = (uid: string | undefined, value: any) => {
-  //   return db.where("uid", "==", uid).update(value);
-  // };
-
   const update = (id: string | undefined, value: any) => {
     return db.doc(id).update(value);
   };
 
-  const remove = (id: string) => {
+  const remove = (id: string | undefined) => {
     return db.doc(id).delete();
   };
   return { getAll, create, update, remove, getOne };
@@ -39,7 +35,9 @@ const firebaseAuth = () => {
 
   const logOut = async () => await auth.signOut();
 
-  return { signIn, signUp, logOut };
+  const deleteUser = async () => await auth.currentUser?.delete();
+
+  return { signIn, signUp, logOut, deleteUser };
 };
 
 const currentUser = () => auth?.currentUser;

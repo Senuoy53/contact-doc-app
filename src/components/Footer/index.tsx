@@ -34,15 +34,15 @@ const Footer = () => {
           {/*  Second Box */}
           <div className="box">
             <h3>Follow Us</h3>
-            <Link to="/home">
+            <Link to="#">
               <FontAwesomeIcon icon={faFacebookF} className="faArrowRight" />
               Facebook
             </Link>
-            <Link to="/professionnels">
+            <Link to="#">
               <FontAwesomeIcon icon={faInstagram} className="faArrowRight" />
               Instagram
             </Link>
-            <Link to="/contact">
+            <Link to="#">
               <FontAwesomeIcon icon={faLinkedin} className="faArrowRight" />
               Linkedin
             </Link>

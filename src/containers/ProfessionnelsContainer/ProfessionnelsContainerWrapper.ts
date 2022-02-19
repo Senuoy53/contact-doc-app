@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { theme } from "../../styles/global-styles";
+import { ProgressType } from "../../utils/types";
 
 const ProfessionnelsContainerWrapper = styled.section`
   padding: 1.5rem 9%;
@@ -67,10 +69,18 @@ const ProfessionnelsContainerWrapper = styled.section`
     outline-color: ${({ theme }) => theme.colors.GreenBgColor};
     width: 60%;
     border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    /* text-transform: capitalize; */
   }
 
   textarea {
     resize: none;
+    line-height: 2;
+  }
+
+  .horaire {
+    padding: 10px;
+    outline-color: ${({ theme }) => theme.colors.GreenBgColor};
+    border: 0.1rem solid rgba(0, 0, 0, 0.1);
   }
 
   .t-right {
@@ -126,11 +136,50 @@ const ProfessionnelsContainerWrapper = styled.section`
     width: 100%;
   }
 
+  .register-form .buttons {
+    display: flex;
+  }
+
   .register-form .btn {
-    width: 50%;
+    flex-basis: 30%;
+    /* width: 50%; */
     /* justify-content: space-around; */
     padding: 0.8rem 3rem;
     margin: 25px auto 0px auto;
+  }
+
+  .register-form .delete {
+    background: ${theme.colors.red};
+    &:hover {
+      background: ${({ theme }) => theme.colors.Gray};
+    }
+  }
+`;
+
+export const Progress = styled.div<ProgressType>`
+  margin: 30px auto 0px;
+  width: 300px;
+  height: 2em;
+  background: ${({ theme }) => theme.colors.Gray};
+  border-radius: 1.5em;
+  color: white;
+  position: relative;
+
+  &::before {
+    content: attr(data-label);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 0.5em;
+    top: 0.5em;
+    bottom: 0.5em;
+    font-size: 11px;
+    width: calc((${({ progress }) => progress}) * 1%);
+    min-width: 1rem;
+    max-width: calc(100% - 2em);
+    background: ${({ theme }) => theme.colors.GreenBgColor};
+    border-radius: 1em;
+    padding: 0.5em;
   }
 `;
 

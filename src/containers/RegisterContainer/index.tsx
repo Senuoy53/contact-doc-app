@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
-import RegisterContainerWrapper from "./RegisterContainerWrapper";
+import RegisterContainerWrapper, { Progress } from "./RegisterContainerWrapper";
 import profil from "../../assets/imgs/profil.png";
 import ErrorComp from "../../components/ErrorComp";
 import { ValuesType } from "../../utils/types";
@@ -9,6 +9,7 @@ import { storage } from "../../firebase";
 import { collections } from "../../utils/constants";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { HoraireData } from "../../utils/constants";
 
 const RegisterContainer = () => {
   const [profileImg, setProfileImg] = useState<any>(profil);
@@ -23,7 +24,7 @@ const RegisterContainer = () => {
     adresse: "",
     siteweb: "",
     photo: "",
-    ouverture: "",
+    ouverture: HoraireData.placeholder,
     diplomes: "",
   };
   const [formValues, setFormValues] = useState(initialValues);
@@ -43,6 +44,13 @@ const RegisterContainer = () => {
   // useNavigate
   const history = useNavigate();
 
+  // Loading
+  const [loading, setLoading] = useState(false);
+
+  // Progress state
+  const [progLoading, setProgLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+
   // image handler
   const imageHandler = (e: any) => {
     const reader = new FileReader();
@@ -51,7 +59,7 @@ const RegisterContainer = () => {
         // console.log(reader.result);
         setProfileImg(reader.result as string);
         setImageFile(e.target.files[0]);
-        console.log(e.target.files[0]);
+        // console.log(e.target.files[0]);
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -62,6 +70,7 @@ const RegisterContainer = () => {
     //  to stop loading the page
     e.preventDefault();
     setProfileImg(profil);
+    setImageFile("");
   };
 
   //   HandleChange Funtion
@@ -87,13 +96,14 @@ const RegisterContainer = () => {
 
       // ======= Check if image is not selected =======
       if (!imageFile) {
+        console.log("no imageFile", imageFile);
         // SignUp
         signUp({
           email: formValues.email,
           password: formValues.password,
         })
           .then((res) => {
-            console.log("resss sccess", res);
+            // console.log("resss sccess", res);
             id = res.user?.uid;
 
             // Create a doctor on firebase
@@ -121,24 +131,32 @@ const RegisterContainer = () => {
             // alert(err.message);
           });
 
-        // ======= Check if image is  selected =======
+        // =======  if the image is  selected =======
       } else {
+        console.log("there is an imageFile", imageFile);
         // SignUp
         signUp({
           email: formValues.email,
           password: formValues.password,
         })
           .then((res) => {
-            console.log("resss sccess", res);
+            // console.log("resss sccess", res);
             id = res.user?.uid;
 
-            // upload photo to firebase storage
+            // ------------------- solution 2
             const uploadPhoto = storage
               .ref(`${collections.doctors}/${id}/image`)
               .put(imageFile);
+
             uploadPhoto.on(
               "state_changed",
-              (snapshot) => {},
+              (snapshot) => {
+                setProgLoading(true);
+                const progress = Math.round(
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                setProgress(progress);
+              },
               (error) => {
                 console.log(error);
               },
@@ -162,9 +180,9 @@ const RegisterContainer = () => {
                       ouverture: formValues.ouverture,
                       diplomes: formValues.diplomes,
                     }).then((res) => {
-                      history("/home");
-                      // console.log("user added");
+                      // setLoading(false);
                       toast.success("User added");
+                      history("/home");
                     });
                     setFormValues(initialValues);
                   });
@@ -365,21 +383,23 @@ const RegisterContainer = () => {
           </div>
         </div>
         {/* Center */}
-        <h5 className="sub-header">Horaire d'ouverture</h5>
+        <h5 className="sub-header">Horaires d'ouverture</h5>
         <div className="center">
           <div className="input-box">
             {/* <label htmlFor="">Adresse :</label> */}
             <textarea
               name="ouverture"
               id="ouverture"
-              className="box"
-              placeholder=" Horaire d'ouverture"
+              className="horaire"
+              placeholder={HoraireData.placeholder}
+              rows={7}
+              cols={40}
               value={formValues.ouverture}
               onChange={handleChange}
             ></textarea>
           </div>
         </div>
-        <h5 className="sub-header">Diplôme & Parcours</h5>
+        <h5 className="sub-header">Diplômes & Parcours</h5>
         <div className="bottom">
           <div className="input-box">
             <textarea
@@ -390,7 +410,9 @@ const RegisterContainer = () => {
               rows={8}
               value={formValues.diplomes}
               onChange={handleChange}
-            ></textarea>
+            >
+              test
+            </textarea>
           </div>
         </div>
         <Button
@@ -399,7 +421,10 @@ const RegisterContainer = () => {
           className="btn"
           onClick={handleClick}
         />
-        {/* </div> */}
+
+        {progLoading && (
+          <Progress data-label="Uploading..." progress={progress}></Progress>
+        )}
       </form>
     </RegisterContainerWrapper>
   );
