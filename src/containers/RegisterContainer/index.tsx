@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
-import RegisterContainerWrapper from "./RegisterContainerWrapper";
+import RegisterContainerWrapper, { Progress } from "./RegisterContainerWrapper";
 import profil from "../../assets/imgs/profil.png";
 import ErrorComp from "../../components/ErrorComp";
 import { ValuesType } from "../../utils/types";
@@ -43,6 +43,13 @@ const RegisterContainer = () => {
 
   // useNavigate
   const history = useNavigate();
+
+  // Loading
+  const [loading, setLoading] = useState(false);
+
+  // Progress state
+  const [progLoading, setProgLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   // image handler
   const imageHandler = (e: any) => {
@@ -89,6 +96,7 @@ const RegisterContainer = () => {
 
       // ======= Check if image is not selected =======
       if (!imageFile) {
+        console.log("no imageFile", imageFile);
         // SignUp
         signUp({
           email: formValues.email,
@@ -123,24 +131,32 @@ const RegisterContainer = () => {
             // alert(err.message);
           });
 
-        // ======= Check if image is  selected =======
+        // =======  if the image is  selected =======
       } else {
+        console.log("there is an imageFile", imageFile);
         // SignUp
         signUp({
           email: formValues.email,
           password: formValues.password,
         })
           .then((res) => {
-            console.log("resss sccess", res);
+            // console.log("resss sccess", res);
             id = res.user?.uid;
 
-            // upload photo to firebase storage
+            // ------------------- solution 2
             const uploadPhoto = storage
               .ref(`${collections.doctors}/${id}/image`)
               .put(imageFile);
+
             uploadPhoto.on(
               "state_changed",
-              (snapshot) => {},
+              (snapshot) => {
+                setProgLoading(true);
+                const progress = Math.round(
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                setProgress(progress);
+              },
               (error) => {
                 console.log(error);
               },
@@ -164,9 +180,9 @@ const RegisterContainer = () => {
                       ouverture: formValues.ouverture,
                       diplomes: formValues.diplomes,
                     }).then((res) => {
-                      history("/home");
-                      // console.log("user added");
+                      // setLoading(false);
                       toast.success("User added");
+                      history("/home");
                     });
                     setFormValues(initialValues);
                   });
@@ -383,7 +399,7 @@ const RegisterContainer = () => {
             ></textarea>
           </div>
         </div>
-        <h5 className="sub-header">Diplôme & Parcours</h5>
+        <h5 className="sub-header">Diplômes & Parcours</h5>
         <div className="bottom">
           <div className="input-box">
             <textarea
@@ -406,7 +422,9 @@ const RegisterContainer = () => {
           onClick={handleClick}
         />
 
-        {/* </div> */}
+        {progLoading && (
+          <Progress data-label="Uploading..." progress={progress}></Progress>
+        )}
       </form>
     </RegisterContainerWrapper>
   );

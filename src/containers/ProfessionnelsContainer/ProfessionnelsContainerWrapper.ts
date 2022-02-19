@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { theme } from "../../styles/global-styles";
+import { ProgressType } from "../../utils/types";
 
 const ProfessionnelsContainerWrapper = styled.section`
   padding: 1.5rem 9%;
@@ -68,6 +69,7 @@ const ProfessionnelsContainerWrapper = styled.section`
     outline-color: ${({ theme }) => theme.colors.GreenBgColor};
     width: 60%;
     border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    /* text-transform: capitalize; */
   }
 
   textarea {
@@ -151,6 +153,33 @@ const ProfessionnelsContainerWrapper = styled.section`
     &:hover {
       background: ${({ theme }) => theme.colors.Gray};
     }
+  }
+`;
+
+export const Progress = styled.div<ProgressType>`
+  margin: 30px auto 0px;
+  width: 300px;
+  height: 2em;
+  background: ${({ theme }) => theme.colors.Gray};
+  border-radius: 1.5em;
+  color: white;
+  position: relative;
+
+  &::before {
+    content: attr(data-label);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 0.5em;
+    top: 0.5em;
+    bottom: 0.5em;
+    font-size: 11px;
+    width: calc((${({ progress }) => progress}) * 1%);
+    min-width: 1rem;
+    max-width: calc(100% - 2em);
+    background: ${({ theme }) => theme.colors.GreenBgColor};
+    border-radius: 1em;
+    padding: 0.5em;
   }
 `;
 

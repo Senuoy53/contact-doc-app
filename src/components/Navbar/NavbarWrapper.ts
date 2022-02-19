@@ -113,6 +113,12 @@ export const Nav = styled.nav`
     &:hover {
       color: ${({ theme }) => theme.colors.White};
     }
+    /* :focus {
+      color: ${({ theme }) => theme.colors.White};
+    } */
+  }
+  .active {
+    color: ${({ theme }) => theme.colors.White};
   }
 `;
 

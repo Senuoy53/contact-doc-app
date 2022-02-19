@@ -43,4 +43,8 @@ interface GlobalState {
   doctorsState: DoctorsState;
 }
 
-export { Doctor, ValuesType, User, Action, GlobalState };
+interface ProgressType {
+  progress: number;
+}
+
+export { Doctor, ValuesType, User, Action, GlobalState, ProgressType };
