@@ -357,7 +357,7 @@ const ProfessionnelsContainer = () => {
                 <input
                   type="text"
                   placeholder="Nom"
-                  className="box"
+                  className="box capitalize"
                   name="nom"
                   value={formValues.nom}
                   disabled
@@ -385,7 +385,7 @@ const ProfessionnelsContainer = () => {
                 <input
                   type="text"
                   placeholder="Spécialité"
-                  className="box"
+                  className="box capitalize"
                   name="specialite"
                   value={formValues.specialite}
                   onChange={handleChange}
@@ -401,7 +401,7 @@ const ProfessionnelsContainer = () => {
                 <input
                   type="text"
                   placeholder="Ville"
-                  className="box"
+                  className="box capitalize"
                   name="ville"
                   value={formValues.ville}
                   onChange={handleChange}
@@ -427,7 +427,7 @@ const ProfessionnelsContainer = () => {
                 <textarea
                   name="adresse"
                   id="adresse"
-                  className="box"
+                  className="box capitalize"
                   placeholder="Adresse"
                   value={formValues.adresse}
                   onChange={handleChange}

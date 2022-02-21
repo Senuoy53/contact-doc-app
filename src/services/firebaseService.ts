@@ -16,6 +16,21 @@ const firebaseService = (collectionName: string) => {
     return db.where("uid", "==", uid).get();
   };
 
+  const filterByAll = async (ville: string, specialite: string) => {
+    return db
+      .where("ville", "==", ville)
+      .where("specialite", "==", specialite)
+      .get();
+  };
+
+  const filterByVille = async (ville: string) => {
+    return db.where("ville", "==", ville).get();
+  };
+
+  const filterBySpecialite = async (specialite: string) => {
+    return db.where("specialite", "==", specialite).get();
+  };
+
   const update = (id: string | undefined, value: any) => {
     return db.doc(id).update(value);
   };
@@ -23,7 +38,16 @@ const firebaseService = (collectionName: string) => {
   const remove = (id: string | undefined) => {
     return db.doc(id).delete();
   };
-  return { getAll, create, update, remove, getOne };
+  return {
+    getAll,
+    create,
+    update,
+    remove,
+    getOne,
+    filterByAll,
+    filterByVille,
+    filterBySpecialite,
+  };
 };
 
 const firebaseAuth = () => {

@@ -69,7 +69,10 @@ const RegisterContainerWrapper = styled.section`
     outline-color: ${({ theme }) => theme.colors.GreenBgColor};
     width: 60%;
     border: 0.1rem solid rgba(0, 0, 0, 0.1);
-    /* text-transform: capitalize; */
+  }
+
+  .capitalize {
+    text-transform: capitalize;
   }
 
   textarea {

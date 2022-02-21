@@ -3,7 +3,7 @@ import ReactPaginate from "react-paginate";
 import Button from "../../components/Button";
 import DoctorItem from "../../components/DoctorItem";
 import { Doctor } from "../../utils/types";
-import { PageSelected } from "./types";
+import { InitialValuesSearch, PageSelected } from "./types";
 // import { SearchDoctorWrapper } from "./SearchDoctorWrapper";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faUserMd } from "@fortawesome/free-solid-svg-icons";
@@ -13,10 +13,12 @@ import { currentUser, firebaseService } from "../../services/firebaseService";
 import { auth } from "../../firebase";
 import Loading from "../../components/Loading";
 import { createStructuredSelector } from "reselect";
-import { makeSelectDoctorsData } from "./selectors";
+import { makeSelectDoctorsData, makeSelectVillesData } from "./selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { collections } from "../../utils/constants";
-import { setDoctors } from "./actions";
+import { setDoctors, setVilles } from "./actions";
+import profil from "../../assets/imgs/profil.png";
+import { toast } from "react-toastify";
 
 const doctorsState = createStructuredSelector({
   doctors: makeSelectDoctorsData(),
@@ -26,11 +28,23 @@ const SearchDoctor = () => {
   const [items, setItems] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(0);
+  const [pageNumber, setPageNumber] = useState(0);
   // const [nbr, setNbr] = useState(0);
 
   // Selectors
   const { doctors } = useSelector(doctorsState);
-  const { getAll } = firebaseService(collections.doctors);
+  const { getAll, filterByAll, filterByVille, filterBySpecialite } =
+    firebaseService(collections.doctors);
+
+  // Doctorfilter
+  const [doctorfilter, setDoctorFilter] = useState<Doctor[]>([]);
+
+  const initialValues = {
+    specialite: "",
+    ville: "",
+  };
+  const [formValues, setFormValues] =
+    useState<InitialValuesSearch>(initialValues);
 
   const dispatch = useDispatch();
 
@@ -39,13 +53,14 @@ const SearchDoctor = () => {
 
     items.docs.forEach((item: any) => {
       let data = item.data();
+
       doctors.push({
         ...data,
       });
     });
-
-    dispatch(setDoctors(doctors));
+    setDoctorFilter(doctors);
   };
+
   useEffect(() => {
     getAll().onSnapshot(onDataChange);
   }, []);
@@ -70,11 +85,117 @@ const SearchDoctor = () => {
   //   getDocteurs();
   // }, []);
 
+  // HandleChange
+  const handleChange = (e: any) => {
+    console.log(e.target.value);
+    const { name, value } = e.target;
+
+    setFormValues({ ...formValues, [name]: value });
+  };
+
   // HandleClick
   const handleClick = (e: any) => {
     //  to stop loading the page
     e.preventDefault();
+
+    console.log("sp :", formValues.specialite);
+    console.log("ville :", formValues.ville);
+
+    if (!formValues.ville && !formValues.specialite) return;
+
+    //  (filter by ville and specialite)
+    if (formValues.ville && formValues.specialite) {
+      let doctors: Doctor[] = [];
+      console.log("hadleclick");
+      filterByAll(formValues.ville, formValues.specialite)
+        .then((querySnapshot) => {
+          querySnapshot?.forEach((doc: any) => {
+            // update doctor global state
+
+            let data = doc.data();
+
+            doctors.push({
+              ...data,
+            });
+          });
+          console.log("doctor : ", doctors);
+          dispatch(setDoctors(doctors));
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
+    }
+
+    //  (filter by ville )
+    else if (formValues.ville && !formValues.specialite) {
+      let doctors: Doctor[] = [];
+      console.log("hadleclick");
+      filterByVille(formValues.ville)
+        .then((querySnapshot) => {
+          querySnapshot?.forEach((doc: any) => {
+            // update doctor global state
+
+            let data = doc.data();
+
+            doctors.push({
+              ...data,
+            });
+          });
+          console.log("doctor : ", doctors);
+
+          dispatch(setDoctors(doctors));
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
+    }
+
+    //  (filter by specialite )
+    else if (!formValues.ville && formValues.specialite) {
+      let doctors: Doctor[] = [];
+      console.log("hadleclick");
+      filterBySpecialite(formValues.specialite)
+        .then((querySnapshot) => {
+          querySnapshot?.forEach((doc: any) => {
+            // update doctor global state
+
+            let data = doc.data();
+
+            doctors.push({
+              ...data,
+            });
+          });
+          console.log("doctor : ", doctors);
+          dispatch(setDoctors(doctors));
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
+    }
   };
+
+  // Pagination
+  const usersPerPage = 3;
+  const pagesVisited = pageNumber * usersPerPage;
+
+  const displayUsers = doctors
+    .slice(pagesVisited, pagesVisited + usersPerPage)
+    .map((item: Doctor, index: number) => {
+      let photo: string = "";
+      if (item.photo) {
+        photo = item.photo;
+      }
+
+      return (
+        <DoctorItem
+          key={index}
+          {...item}
+          nom={item.nom}
+          nbr={index + 1}
+          photo={photo}
+        />
+      );
+    });
 
   // FetchDoctors
   // const fetchDoctors = async (currentPage: number) => {
@@ -102,27 +223,67 @@ const SearchDoctor = () => {
       {/* {console.log("current User ", auth)} */}
       {/* {console.log("current uid searchPage", auth.currentUser?.uid)} */}
 
+      {/* =================== Search Form =================== */}
       <form className="searchForm">
-        <input
+        {/* <input
           type="text"
           name="specialite"
           placeholder="Spécialité"
           className="inputBox"
-        />
+        /> */}
 
         <div className="select">
-          <select name="ville" id="ville" defaultValue="Choisir une ville">
+          <select
+            name="specialite"
+            id="specialite"
+            defaultValue="Choisir une specialite"
+            onChange={handleChange}
+          >
+            <option value="Choisir une specialite" disabled>
+              Choisir une specialité
+            </option>
+
+            {Array.from(
+              new Set(
+                doctorfilter.map(
+                  (item: Doctor, index: number) => item.specialite
+                )
+              )
+            ).map((specialite, index) => {
+              return (
+                <option value={specialite} key={index}>
+                  {specialite}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+
+        <div className="select">
+          <select
+            name="ville"
+            id="ville"
+            defaultValue="Choisir une ville"
+            onChange={handleChange}
+          >
             <option value="Choisir une ville" disabled>
               Choisir une ville
             </option>
 
             {Array.from(
-              new Set(doctors.map((item: Doctor, index: number) => item.ville))
-            ).map((ville) => {
-              return <option value={ville}>{ville}</option>;
+              new Set(
+                doctorfilter.map((item: Doctor, index: number) => item.ville)
+              )
+            ).map((ville, index) => {
+              return (
+                <option value={ville} key={index}>
+                  {ville}
+                </option>
+              );
             })}
           </select>
         </div>
+
         <Button
           type="submit"
           value="Rechercher"
@@ -131,8 +292,28 @@ const SearchDoctor = () => {
         />
         {/* <FontAwesomeIcon icon={faUserMd} id="search-btn" /> */}
       </form>
+
+      {/* =================== Pagination Section =================== */}
       <section className="PaginationSection">
-        {loading ? (
+        {displayUsers}
+        {/* {doctors.map((item: Doctor, index: number) => {
+          let photo: string = "";
+          if (item.photo) {
+            photo = item.photo;
+          }
+
+          return (
+            <DoctorItem
+              key={index}
+              {...item}
+              nom={item.nom}
+              nbr={index + 1}
+              photo={photo}
+            />
+          );
+        })} */}
+
+        {/* {loading ? (
           <Loading />
         ) : (
           items.map((item, index) => {
@@ -148,7 +329,7 @@ const SearchDoctor = () => {
               />
             );
           })
-        )}
+        )} */}
 
         {/* <ReactPaginate
           previousLabel={"Précédent"}

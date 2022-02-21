@@ -41,10 +41,8 @@ const DoctorItem = ({
           <span>Spécialité : </span>
           <p>{specialite}</p>
         </div>
-        {/* <div className="img-box"> */}
 
-        <img className="img-box" src={photo} />
-        {/* </div> */}
+        <img className="img-box" src={photo ? photo : profil} />
       </div>
     </DoctorItemWrapper>
   );
