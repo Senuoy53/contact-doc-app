@@ -4,4 +4,10 @@ export interface PageSelected {
 
 export interface DoctorsState {
   doctors: Doctor;
+  villes: string[];
+}
+
+export interface InitialValuesSearch {
+  specialite: string;
+  ville: string;
 }

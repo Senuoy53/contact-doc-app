@@ -8,7 +8,13 @@ const selectFromDoctorsStateDomain = (globalState: GlobalState): DoctorsState =>
 const makeSelectDoctorsData = () =>
   createSelector(
     selectFromDoctorsStateDomain,
-    (doctorsState: DoctorsState): Doctor => doctorsState.doctors
+    (doctorsState: DoctorsState): Doctor[] => doctorsState.doctors
   );
 
-export { makeSelectDoctorsData };
+const makeSelectVillesData = () =>
+  createSelector(
+    selectFromDoctorsStateDomain,
+    (doctorsState: DoctorsState): string[] => doctorsState.villes
+  );
+
+export { makeSelectDoctorsData, makeSelectVillesData };

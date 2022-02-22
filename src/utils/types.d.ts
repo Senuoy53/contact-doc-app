@@ -11,7 +11,7 @@ interface Doctor {
   photo?: string;
   ouverture?: string;
   diplomes?: string;
-  // nbr?: number;
+  nbr?: number;
 }
 
 interface User {

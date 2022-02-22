@@ -4,6 +4,7 @@ import { Action } from "../../utils/types";
 
 const initialState: DoctorsState = {
   doctors: [],
+  villes: [],
 };
 
 const doctorsReducer = (state = initialState, action: Action) => {
@@ -12,6 +13,12 @@ const doctorsReducer = (state = initialState, action: Action) => {
       return {
         ...state,
         doctors: action.payload,
+      };
+
+    case ActionTypes.SET_VILLES:
+      return {
+        ...state,
+        villes: action.payload,
       };
     default:
       return state;

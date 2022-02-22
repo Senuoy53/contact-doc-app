@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { theme } from "../../styles/global-styles";
 import { ProgressType } from "../../utils/types";
 
-const RegisterContainerWrapper = styled.section`
+const DetailsDoctorWrapper = styled.section`
   padding: 1.5rem 9%;
 
   .register-form {
@@ -57,7 +58,6 @@ const RegisterContainerWrapper = styled.section`
     align-items: center;
     justify-content: space-between;
     gap: 15px;
-    /* text-transform: capitalize; */
   }
   label {
   }
@@ -69,6 +69,7 @@ const RegisterContainerWrapper = styled.section`
     outline-color: ${({ theme }) => theme.colors.GreenBgColor};
     width: 60%;
     border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    /* text-transform: capitalize; */
   }
 
   .capitalize {
@@ -139,16 +140,28 @@ const RegisterContainerWrapper = styled.section`
     width: 100%;
   }
 
+  .register-form .buttons {
+    display: flex;
+  }
+
   .register-form .btn {
-    width: 50%;
+    flex-basis: 30%;
+    /* width: 50%; */
     /* justify-content: space-around; */
     padding: 0.8rem 3rem;
     margin: 25px auto 0px auto;
   }
+
+  .register-form .delete {
+    background: ${theme.colors.red};
+    &:hover {
+      background: ${({ theme }) => theme.colors.Gray};
+    }
+  }
 `;
 
 export const Progress = styled.div<ProgressType>`
-  margin: 20px auto;
+  margin: 30px auto 0px;
   width: 300px;
   height: 2em;
   background: ${({ theme }) => theme.colors.Gray};
@@ -174,4 +187,4 @@ export const Progress = styled.div<ProgressType>`
   }
 `;
 
-export default RegisterContainerWrapper;
+export default DetailsDoctorWrapper;

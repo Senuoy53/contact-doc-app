@@ -72,6 +72,10 @@ const ProfessionnelsContainerWrapper = styled.section`
     /* text-transform: capitalize; */
   }
 
+  .capitalize {
+    text-transform: capitalize;
+  }
+
   textarea {
     resize: none;
     line-height: 2;

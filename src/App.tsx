@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import Professionsels from "./pages/Professionnels";
 import Contact from "./pages/Contact";
 import { auth } from "./firebase";
+import DetailsDoctor from "./pages/DetailsDoctor";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/professionnels" element={<Professionsels />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/detailsdoctor/:id" element={<DetailsDoctor />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
