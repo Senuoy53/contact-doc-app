@@ -7,4 +7,5 @@ interface DoctorsItemProps {
   adresse?: string;
   photo?: string;
   ville: string;
+  id?: any | undefined;
 }

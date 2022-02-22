@@ -19,17 +19,19 @@ import { collections } from "../../utils/constants";
 import { setDoctors, setVilles } from "./actions";
 import profil from "../../assets/imgs/profil.png";
 import { toast } from "react-toastify";
+import ErrorComp from "../../components/ErrorComp";
 
 const doctorsState = createStructuredSelector({
   doctors: makeSelectDoctorsData(),
 });
 
 const SearchDoctor = () => {
-  const [items, setItems] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(0);
   const [pageNumber, setPageNumber] = useState(0);
-  // const [nbr, setNbr] = useState(0);
+  const [nbrResulat, setNbrResultat] = useState(0);
+  const [selected, setSelected] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
   // Selectors
   const { doctors } = useSelector(doctorsState);
@@ -65,26 +67,6 @@ const SearchDoctor = () => {
     getAll().onSnapshot(onDataChange);
   }, []);
 
-  let limit = 5;
-
-  // useEffect
-  // useEffect(() => {
-  //   const getDocteurs = async () => {
-  //     setLoading(true);
-  //     const res = await fetch(
-  //       `http://localhost:3004/docteurs?_page=1&_limit=${limit}`
-  //     );
-  //     const data = await res.json();
-  //     const total: any = res.headers.get("x-total-count");
-  //     setPageCount(Math.ceil(total / limit));
-  //     setItems([...data]);
-  //     setLoading(false);
-  //   };
-
-  //   // Appel de la fonction
-  //   getDocteurs();
-  // }, []);
-
   // HandleChange
   const handleChange = (e: any) => {
     console.log(e.target.value);
@@ -98,28 +80,36 @@ const SearchDoctor = () => {
     //  to stop loading the page
     e.preventDefault();
 
-    console.log("sp :", formValues.specialite);
-    console.log("ville :", formValues.ville);
+    // Change clicked to true
+    setClicked(true);
 
     if (!formValues.ville && !formValues.specialite) return;
+
+    // Change selected to true
+    setSelected(true);
 
     //  (filter by ville and specialite)
     if (formValues.ville && formValues.specialite) {
       let doctors: Doctor[] = [];
-      console.log("hadleclick");
+      let index = 0;
       filterByAll(formValues.ville, formValues.specialite)
         .then((querySnapshot) => {
           querySnapshot?.forEach((doc: any) => {
             // update doctor global state
 
             let data = doc.data();
+            index = index + 1;
 
             doctors.push({
               ...data,
+              nbr: index,
             });
           });
-          console.log("doctor : ", doctors);
+
           dispatch(setDoctors(doctors));
+          setPageCount(Math.ceil(doctors.length / doctorsPerPage));
+          // get le nbr de resulats à afficher
+          setNbrResultat(index);
         })
         .catch((err) => {
           toast.error(err.message);
@@ -129,7 +119,8 @@ const SearchDoctor = () => {
     //  (filter by ville )
     else if (formValues.ville && !formValues.specialite) {
       let doctors: Doctor[] = [];
-      console.log("hadleclick");
+      let index = 0;
+
       filterByVille(formValues.ville)
         .then((querySnapshot) => {
           querySnapshot?.forEach((doc: any) => {
@@ -137,13 +128,18 @@ const SearchDoctor = () => {
 
             let data = doc.data();
 
+            index = index + 1;
+
             doctors.push({
               ...data,
+              nbr: index,
             });
           });
-          console.log("doctor : ", doctors);
 
           dispatch(setDoctors(doctors));
+          setPageCount(Math.ceil(doctors.length / doctorsPerPage));
+          // get le nbr de resulats à afficher
+          setNbrResultat(index);
         })
         .catch((err) => {
           toast.error(err.message);
@@ -153,20 +149,26 @@ const SearchDoctor = () => {
     //  (filter by specialite )
     else if (!formValues.ville && formValues.specialite) {
       let doctors: Doctor[] = [];
-      console.log("hadleclick");
+      let index = 0;
+
       filterBySpecialite(formValues.specialite)
         .then((querySnapshot) => {
           querySnapshot?.forEach((doc: any) => {
             // update doctor global state
 
             let data = doc.data();
+            index = index + 1;
 
             doctors.push({
               ...data,
+              nbr: index,
             });
           });
-          console.log("doctor : ", doctors);
+
           dispatch(setDoctors(doctors));
+          setPageCount(Math.ceil(doctors.length / doctorsPerPage));
+          // get le nbr de resulats à afficher
+          setNbrResultat(index);
         })
         .catch((err) => {
           toast.error(err.message);
@@ -174,13 +176,22 @@ const SearchDoctor = () => {
     }
   };
 
-  // Pagination
-  const usersPerPage = 3;
-  const pagesVisited = pageNumber * usersPerPage;
+  // const displayaAllDetails = (e: any) => {
+  //   // to stop loading the page
+  //   e.preventDefault();
+  //   console.log("display all details");
+  //   console.log("id", e.target.id);
+  // };
 
-  const displayUsers = doctors
-    .slice(pagesVisited, pagesVisited + usersPerPage)
+  // Pagination
+  const doctorsPerPage = 2;
+  const pagesVisited = pageNumber * doctorsPerPage;
+
+  // display doctors
+  const displayDoctors = doctors
+    .slice(pagesVisited, pagesVisited + doctorsPerPage)
     .map((item: Doctor, index: number) => {
+      // setLoading(true);
       let photo: string = "";
       if (item.photo) {
         photo = item.photo;
@@ -191,47 +202,24 @@ const SearchDoctor = () => {
           key={index}
           {...item}
           nom={item.nom}
-          nbr={index + 1}
+          // nbr={index + 1}
           photo={photo}
+          id={item.uid}
         />
       );
     });
 
-  // FetchDoctors
-  // const fetchDoctors = async (currentPage: number) => {
-  //   const res = await fetch(
-  //     `http://localhost:3004/docteurs?_page=${currentPage}&_limit=${limit}`
-  //   );
-  //   const data = await res.json();
-
-  //   return data;
-  // };
-
   // handlePageClick
-  // const handlePageClick = async (data: PageSelected) => {
-  //   let currentPage = data.selected + 1;
-
-  //   const doctorsFromServer = await fetchDoctors(currentPage);
-
-  //   setItems(doctorsFromServer);
-  // };
+  const handlePageClick = ({ selected }: any) => {
+    setPageNumber(selected);
+  };
 
   return (
     // <SearchDoctorWrapper>
 
     <section>
-      {/* {console.log("current User ", auth)} */}
-      {/* {console.log("current uid searchPage", auth.currentUser?.uid)} */}
-
       {/* =================== Search Form =================== */}
       <form className="searchForm">
-        {/* <input
-          type="text"
-          name="specialite"
-          placeholder="Spécialité"
-          className="inputBox"
-        /> */}
-
         <div className="select">
           <select
             name="specialite"
@@ -290,66 +278,49 @@ const SearchDoctor = () => {
           className="btn"
           onClick={handleClick}
         />
-        {/* <FontAwesomeIcon icon={faUserMd} id="search-btn" /> */}
       </form>
+
+      {/* =================== Resultats Section =================== */}
+
+      {clicked && (
+        <div id="resultat">
+          {selected ? (
+            <p>
+              <b>{nbrResulat}</b>, résultat(s) trouvé(s)
+            </p>
+          ) : (
+            <ErrorComp>
+              Veuillez selectionner une ville et/ou une spécialité
+            </ErrorComp>
+          )}
+        </div>
+      )}
 
       {/* =================== Pagination Section =================== */}
       <section className="PaginationSection">
-        {displayUsers}
-        {/* {doctors.map((item: Doctor, index: number) => {
-          let photo: string = "";
-          if (item.photo) {
-            photo = item.photo;
-          }
+        {nbrResulat !== 0 && displayDoctors}
 
-          return (
-            <DoctorItem
-              key={index}
-              {...item}
-              nom={item.nom}
-              nbr={index + 1}
-              photo={photo}
-            />
-          );
-        })} */}
-
-        {/* {loading ? (
-          <Loading />
-        ) : (
-          items.map((item, index) => {
-            // setNbr(nbr + 1);
-            // console.log("items length", items.length);
-
-            return (
-              <DoctorItem
-                key={index}
-                {...item}
-                nom={item.nom}
-                nbr={index + 1}
-              />
-            );
-          })
-        )} */}
-
-        {/* <ReactPaginate
-          previousLabel={"Précédent"}
-          nextLabel={"Suivant"}
-          breakLabel={"..."}
-          pageCount={pageCount}
-          marginPagesDisplayed={4}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-ps"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-ps"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-          disabledClassName={"unactive"}
-        /> */}
+        {nbrResulat !== 0 && (
+          <ReactPaginate
+            previousLabel={"Précédent"}
+            nextLabel={"Suivant"}
+            breakLabel={"..."}
+            pageCount={pageCount}
+            marginPagesDisplayed={4}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            pageClassName={"page-item"}
+            pageLinkClassName={"page-link"}
+            previousClassName={"page-ps"}
+            previousLinkClassName={"page-link"}
+            nextClassName={"page-ps"}
+            nextLinkClassName={"page-link"}
+            breakClassName={"page-item"}
+            breakLinkClassName={"page-link"}
+            activeClassName={"active"}
+            disabledClassName={"unactive"}
+          />
+        )}
       </section>
     </section>
   );

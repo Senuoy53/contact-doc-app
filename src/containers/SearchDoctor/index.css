@@ -129,6 +129,14 @@ section {
   pointer-events: none;
 }
 
+#resultat {
+  margin-top: 15px;
+}
+
+#resultat #error {
+  color: #d8000c;
+}
+
 /* .PaginationSection .loading {
   margin: 50px;
   text-align: center;

@@ -22,7 +22,7 @@ export const theme = {
     Gray: "#666",
     Black: "#000",
     White: "#fff",
-    red: "#b93d30",
+    red: "#d8000c",
   },
 };
 

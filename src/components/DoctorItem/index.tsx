@@ -1,5 +1,6 @@
 import { DoctorItemWrapper } from "./DoctorItemWrapper";
 import profil from "../../assets/imgs/profil.png";
+import { Link } from "react-router-dom";
 
 const DoctorItem = ({
   nbr,
@@ -9,6 +10,7 @@ const DoctorItem = ({
   adresse,
   photo,
   ville,
+  id,
 }: DoctorsItemProps) => {
   return (
     <DoctorItemWrapper>
@@ -43,6 +45,9 @@ const DoctorItem = ({
         </div>
 
         <img className="img-box" src={photo ? photo : profil} />
+        <button>
+          <Link to={`/detailsdoctor/${id}`}>voir details</Link>
+        </button>
       </div>
     </DoctorItemWrapper>
   );
