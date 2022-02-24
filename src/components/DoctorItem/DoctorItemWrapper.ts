@@ -9,14 +9,13 @@ export const DoctorItemWrapper = styled.div`
   padding: 80px 30px;
   display: flex;
   align-items: center;
-  gap: 20%;
+  /* gap: 20%; */
   border-radius: 10px;
   transition: all 0.5s ease;
   text-transform: capitalize;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.GreenBgColor};
-    cursor: pointer;
 
     .number {
       background-color: ${({ theme }) => theme.colors.GrayBgColor};
@@ -80,7 +79,9 @@ export const DoctorItemWrapper = styled.div`
   .img-box {
     flex: 1;
     width: 80px;
+    min-width: 80px;
     height: 80px;
+    max-height: 80px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -97,5 +98,9 @@ export const DoctorItemWrapper = styled.div`
   }
   .specialite p {
     margin-top: 8px;
+  }
+
+  .right a {
+    color: ${({ theme }) => theme.colors.GreenBgColor};
   }
 `;

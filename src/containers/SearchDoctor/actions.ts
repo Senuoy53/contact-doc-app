@@ -8,11 +8,4 @@ const setDoctors = (payload: Doctor[]) => {
   };
 };
 
-const setVilles = (payload: string[]) => {
-  return {
-    type: ActionTypes.SET_VILLES,
-    payload,
-  };
-};
-
-export { setDoctors, setVilles };
+export { setDoctors };

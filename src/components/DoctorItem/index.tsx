@@ -1,6 +1,7 @@
 import { DoctorItemWrapper } from "./DoctorItemWrapper";
 import profil from "../../assets/imgs/profil.png";
 import { Link } from "react-router-dom";
+import DetailButton from "../DetailButton";
 
 const DoctorItem = ({
   nbr,
@@ -45,17 +46,19 @@ const DoctorItem = ({
         </div>
 
         <img className="img-box" src={photo ? photo : profil} />
-        <button>
-          <Link to={`/detailsdoctor/${id}`}>voir details</Link>
-        </button>
+        <DetailButton>
+          <Link to={`/detailsdoctor/${id}`} target={"_blank"}>
+            voir details
+          </Link>
+        </DetailButton>
       </div>
     </DoctorItemWrapper>
   );
 };
 
-DoctorItem.defaultProps = {
-  photo: profil,
-  // "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260.jpg",
-};
+// DoctorItem.defaultProps = {
+//   photo: profil,
+//   // "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260.jpg",
+// };
 
 export default DoctorItem;
