@@ -1,0 +1,3 @@
+interface DetailButtonProps {
+  children: any;
+}

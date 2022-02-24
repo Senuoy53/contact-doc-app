@@ -25,7 +25,7 @@ const doctorsState = createStructuredSelector({
 
 const ProfessionnelsContainer = () => {
   const [profileImg, setProfileImg] = useState<any>(profil);
-  const [imageFile, setImageFile] = useState<any>();
+  const [imageFile, setImageFile] = useState<any>("");
   const initialValues = {
     nom: "",
     email: "",
@@ -116,7 +116,7 @@ const ProfessionnelsContainer = () => {
           //   ouverture: doc.data().ouverture,
           //   diplomes: doc.data().diplomes,
           // });
-          // console.log("profileImg", doc.data().photo);
+          console.log("profileImg", doc.data().photo);
           if (doc.data().photo) {
             setProfileImg(doc.data().photo);
           }
@@ -172,7 +172,7 @@ const ProfessionnelsContainer = () => {
       let id: string | undefined = "";
 
       // ======= Check if image is not selected =======
-      if (!imageFile) {
+      if (!imageFile && profileImg === profil) {
         console.log("imagefile null", imageFile);
         // Update
         update(docId, {
@@ -192,7 +192,31 @@ const ProfessionnelsContainer = () => {
           .catch((err) => {
             alert(err.message);
           });
-      } else {
+      } else if (!imageFile && profileImg !== profil) {
+        console.log(
+          "imagefile null : ",
+          "profile img !==profil  : ",
+          imageFile,
+          profileImg
+        );
+        // Update
+        update(docId, {
+          specialite: formValues.specialite,
+          ville: formValues.ville,
+          tel: formValues.tel,
+          adresse: formValues.adresse,
+          siteweb: formValues.siteweb,
+          ouverture: formValues.ouverture,
+          diplomes: formValues.diplomes,
+        })
+          .then((res) => {
+            // console.log("updateeeeeeeeeeeeeee", docId);
+            toast.success("User Modified");
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
+      } else if (imageFile) {
         console.log("imagefile ", imageFile);
 
         // upload photo to firebase storage

@@ -3,21 +3,19 @@ import ReactPaginate from "react-paginate";
 import Button from "../../components/Button";
 import DoctorItem from "../../components/DoctorItem";
 import { Doctor } from "../../utils/types";
-import { InitialValuesSearch, PageSelected } from "./types";
+import { InitialValuesSearch } from "./types";
 // import { SearchDoctorWrapper } from "./SearchDoctorWrapper";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faUserMd } from "@fortawesome/free-solid-svg-icons";
 
 import "./index.css";
-import { currentUser, firebaseService } from "../../services/firebaseService";
-import { auth } from "../../firebase";
+import { firebaseService } from "../../services/firebaseService";
 import Loading from "../../components/Loading";
 import { createStructuredSelector } from "reselect";
-import { makeSelectDoctorsData, makeSelectVillesData } from "./selectors";
+import { makeSelectDoctorsData } from "./selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { collections } from "../../utils/constants";
-import { setDoctors, setVilles } from "./actions";
-import profil from "../../assets/imgs/profil.png";
+import { setDoctors } from "./actions";
 import { toast } from "react-toastify";
 import ErrorComp from "../../components/ErrorComp";
 
@@ -50,6 +48,7 @@ const SearchDoctor = () => {
 
   const dispatch = useDispatch();
 
+  // === Chargement des listes des docteurs ===
   const onDataChange = (items: any) => {
     let doctors: Doctor[] = [];
 
@@ -67,7 +66,7 @@ const SearchDoctor = () => {
     getAll().onSnapshot(onDataChange);
   }, []);
 
-  // HandleChange
+  // === HandleChange ===
   const handleChange = (e: any) => {
     console.log(e.target.value);
     const { name, value } = e.target;
@@ -75,7 +74,7 @@ const SearchDoctor = () => {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  // HandleClick
+  // === HandleClick ===
   const handleClick = (e: any) => {
     //  to stop loading the page
     e.preventDefault();
@@ -176,18 +175,11 @@ const SearchDoctor = () => {
     }
   };
 
-  // const displayaAllDetails = (e: any) => {
-  //   // to stop loading the page
-  //   e.preventDefault();
-  //   console.log("display all details");
-  //   console.log("id", e.target.id);
-  // };
-
-  // Pagination
+  // === Pagination ===
   const doctorsPerPage = 2;
   const pagesVisited = pageNumber * doctorsPerPage;
 
-  // display doctors
+  // === display doctors by filter ===
   const displayDoctors = doctors
     .slice(pagesVisited, pagesVisited + doctorsPerPage)
     .map((item: Doctor, index: number) => {
@@ -202,14 +194,13 @@ const SearchDoctor = () => {
           key={index}
           {...item}
           nom={item.nom}
-          // nbr={index + 1}
           photo={photo}
           id={item.uid}
         />
       );
     });
 
-  // handlePageClick
+  // === handlePageClick ===
   const handlePageClick = ({ selected }: any) => {
     setPageNumber(selected);
   };
@@ -231,6 +222,7 @@ const SearchDoctor = () => {
               Choisir une specialité
             </option>
 
+            {/* Chargement de liste des specialités sans duplication */}
             {Array.from(
               new Set(
                 doctorfilter.map(
@@ -258,6 +250,7 @@ const SearchDoctor = () => {
               Choisir une ville
             </option>
 
+            {/* Chargement de liste des villes sans duplication */}
             {Array.from(
               new Set(
                 doctorfilter.map((item: Doctor, index: number) => item.ville)

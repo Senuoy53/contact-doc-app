@@ -18,15 +18,6 @@ section {
   padding: 0.8rem 3rem;
 }
 
-.searchForm .inputBox {
-  /* padding: 12px; */
-  height: 48px;
-  line-height: 3;
-  padding: 0 0.5em;
-
-  outline-color: #55b566;
-}
-
 .select select {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -136,9 +127,3 @@ section {
 #resultat #error {
   color: #d8000c;
 }
-
-/* .PaginationSection .loading {
-  margin: 50px;
-  text-align: center;
-  color: #55b566;
-} */
