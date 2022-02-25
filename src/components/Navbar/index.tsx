@@ -104,7 +104,7 @@ const Navbar = () => {
               // Fermer login form
               setToggleLogin(!toggleLogin);
 
-              res && dispatch(setDoctors(doc.data() as Doctor[]));
+              // res && dispatch(setDoctors(doc.data() as Doctor[]));
               setFormValues(initialValues);
               history("/professionnels");
             });
@@ -135,7 +135,7 @@ const Navbar = () => {
         DocContact
       </Link>
 
-      <Nav>
+      <Nav className={`${toggleMenu ? "active" : ""}`}>
         <NavLink to="/home">Home</NavLink>
         {auth.currentUser && (
           <NavLink to="/professionnels">Professionnels</NavLink>

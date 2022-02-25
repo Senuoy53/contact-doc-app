@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { mobile, tablette768 } from "../../styles/responsive";
 
 export const NavbarWrapper = styled.header`
   position: fixed;
@@ -13,6 +14,10 @@ export const NavbarWrapper = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem 9%;
+
+  ${mobile({
+    padding: "1.5rem 1%",
+  })}
 
   // Logo
   .logo {
@@ -38,6 +43,10 @@ export const NavbarWrapper = styled.header`
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     width: 350px;
     padding: 20px;
+
+    ${mobile({
+      width: "280px",
+    })}
   }
 
   .login-form.active {
@@ -105,11 +114,35 @@ export const NavbarWrapper = styled.header`
 `;
 
 export const Nav = styled.nav`
+  -webkit-transition: 0.2s linear;
+  transition: 0.2s linear;
+  /* Media Query Mobile */
+  ${tablette768({
+    position: "absolute",
+    top: "99%",
+    left: 0,
+    right: 0,
+    background: "#fff",
+    // display: "none",
+    clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)",
+  })}
+
   a {
     font-size: 20px;
     color: ${({ theme }) => theme.colors.Gray};
     margin: 0 15px;
     //The parent selector, &,
+
+    /* Media Query tablette  */
+    @media screen and (max-width: 768px) {
+      margin: 1rem;
+      padding: 1rem;
+      /* background: #f3f3f3; */
+      background: ${({ theme }) => theme.colors.GreenBgColor};
+      display: block;
+      border-radius: 10px;
+    }
+
     &:hover {
       color: ${({ theme }) => theme.colors.White};
     }
@@ -119,6 +152,14 @@ export const Nav = styled.nav`
   }
   .active {
     color: ${({ theme }) => theme.colors.White};
+  }
+
+  &.active {
+    /* Media query Tablette */
+    ${tablette768({
+      // display: "block",
+      clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+    })}
   }
 `;
 
@@ -153,9 +194,11 @@ export const Icons = styled.div`
 `;
 
 export const MenuBtn = styled.div`
-  /* display: none; */
+  display: none;
   margin-right: 20px;
   cursor: pointer;
+  /* Media query tablette */
+  ${tablette768({ display: "block" })}
 
   &:hover div {
     background-color: #fff;

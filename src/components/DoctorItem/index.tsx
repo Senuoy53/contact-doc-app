@@ -15,6 +15,7 @@ const DoctorItem = ({
 }: DoctorsItemProps) => {
   return (
     <DoctorItemWrapper>
+      {/* Left */}
       <div className="left">
         <div className="t-left">
           <div className="number">{nbr}</div>
@@ -39,6 +40,7 @@ const DoctorItem = ({
         </div>
       </div>
 
+      {/* Right */}
       <div className="right">
         <div className="specialite">
           <span>Spécialité : </span>
@@ -46,11 +48,11 @@ const DoctorItem = ({
         </div>
 
         <img className="img-box" src={photo ? photo : profil} />
-        <DetailButton>
+        <div className="button">
           <Link to={`/detailsdoctor/${id}`} target={"_blank"}>
-            voir details
+            <DetailButton>voir details</DetailButton>
           </Link>
-        </DetailButton>
+        </div>
       </div>
     </DoctorItemWrapper>
   );

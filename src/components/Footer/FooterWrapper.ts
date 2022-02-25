@@ -1,9 +1,16 @@
 import styled from "styled-components";
+import { mobile } from "../../styles/responsive";
 
 export const FirstFooterWrapper = styled.div`
   padding: 3rem 9%;
   /* background-color: #f3f3f3; */
   background-color: ${({ theme }) => theme.colors.GrayBgColor};
+
+  /* Media query */
+  ${mobile({
+    padding: "3rem 1%",
+  })}
+
   .box-container {
     display: flex;
     align-items: center;
@@ -48,4 +55,10 @@ export const SecondFooterWrapper = styled.div`
   text-align: center;
   color: ${({ theme }) => theme.colors.White};
   font-size: 20px;
+
+  /* Media query */
+  ${mobile({
+    padding: "3rem 1%",
+    fontSize: "14px",
+  })}
 `;
