@@ -1,8 +1,21 @@
 import styled from "styled-components";
 import { ProgressType } from "../../utils/types";
+import {
+  mobile,
+  tablette510,
+  tablette560,
+  tablette630,
+  tablette768,
+  desktop825,
+} from "../../styles/responsive";
 
 const RegisterContainerWrapper = styled.section`
   padding: 1.5rem 9%;
+
+  /* Media Query */
+  ${tablette768({
+    padding: "1.5rem 1%",
+  })}
 
   .register-form {
     background: ${({ theme }) => theme.colors.White};
@@ -36,8 +49,19 @@ const RegisterContainerWrapper = styled.section`
 
   .top {
     display: flex;
-    /* align-items: center; */
-    justify-content: space-between;
+
+    ${mobile({
+      flexDirection: "column-reverse",
+    })}
+
+    ${tablette560({
+      gap: "20px",
+    })}
+
+    ${tablette630({
+      justifyContent: "flex-end",
+      gap: "50px",
+    })}
   }
 
   .top,
@@ -51,6 +75,15 @@ const RegisterContainerWrapper = styled.section`
     display: flex;
     flex-direction: column;
     gap: 15px;
+    ${mobile({
+      marginTop: "30px",
+    })}
+    ${tablette510({
+      marginRight: "-10px",
+    })}
+    ${tablette630({
+      flex: "2",
+    })}
   }
   .input-box {
     display: flex;
@@ -60,6 +93,9 @@ const RegisterContainerWrapper = styled.section`
     /* text-transform: capitalize; */
   }
   label {
+    ${tablette768({
+      fontSize: "14px",
+    })}
   }
   .input-box span {
     color: red;
@@ -84,6 +120,9 @@ const RegisterContainerWrapper = styled.section`
     padding: 10px;
     outline-color: ${({ theme }) => theme.colors.GreenBgColor};
     border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    ${mobile({
+      width: "100%",
+    })}
   }
 
   .t-right {
@@ -91,6 +130,10 @@ const RegisterContainerWrapper = styled.section`
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    ${desktop825({
+      marginLeft: "20px",
+    })}
   }
 
   .img-holder {
@@ -144,6 +187,12 @@ const RegisterContainerWrapper = styled.section`
     /* justify-content: space-around; */
     padding: 0.8rem 3rem;
     margin: 25px auto 0px auto;
+  }
+
+  .bottom textarea {
+    ${mobile({
+      width: "100%",
+    })}
   }
 `;
 

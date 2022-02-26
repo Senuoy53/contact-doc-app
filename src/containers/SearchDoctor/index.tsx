@@ -50,6 +50,10 @@ const SearchDoctor = () => {
 
   // === Chargement des listes des docteurs ===
   const onDataChange = (items: any) => {
+    // Change clicked to true
+
+    setClicked(false);
+
     let doctors: Doctor[] = [];
 
     items.docs.forEach((item: any) => {
@@ -59,6 +63,7 @@ const SearchDoctor = () => {
         ...data,
       });
     });
+    dispatch(setDoctors(doctors));
     setDoctorFilter(doctors);
   };
 
@@ -68,7 +73,7 @@ const SearchDoctor = () => {
 
   // === HandleChange ===
   const handleChange = (e: any) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     const { name, value } = e.target;
 
     setFormValues({ ...formValues, [name]: value });
@@ -106,6 +111,7 @@ const SearchDoctor = () => {
           });
 
           dispatch(setDoctors(doctors));
+
           setPageCount(Math.ceil(doctors.length / doctorsPerPage));
           // get le nbr de resulats à afficher
           setNbrResultat(index);
@@ -136,6 +142,7 @@ const SearchDoctor = () => {
           });
 
           dispatch(setDoctors(doctors));
+
           setPageCount(Math.ceil(doctors.length / doctorsPerPage));
           // get le nbr de resulats à afficher
           setNbrResultat(index);
@@ -165,6 +172,7 @@ const SearchDoctor = () => {
           });
 
           dispatch(setDoctors(doctors));
+
           setPageCount(Math.ceil(doctors.length / doctorsPerPage));
           // get le nbr de resulats à afficher
           setNbrResultat(index);
@@ -180,25 +188,28 @@ const SearchDoctor = () => {
   const pagesVisited = pageNumber * doctorsPerPage;
 
   // === display doctors by filter ===
-  const displayDoctors = doctors
-    .slice(pagesVisited, pagesVisited + doctorsPerPage)
-    .map((item: Doctor, index: number) => {
-      // setLoading(true);
-      let photo: string = "";
-      if (item.photo) {
-        photo = item.photo;
-      }
 
-      return (
-        <DoctorItem
-          key={index}
-          {...item}
-          nom={item.nom}
-          photo={photo}
-          id={item.uid}
-        />
-      );
-    });
+  const displayDoctors = () => {
+    return doctors
+      .slice(pagesVisited, pagesVisited + doctorsPerPage)
+      .map((item: Doctor, index: number) => {
+        // setLoading(true);
+        let photo: string = "";
+        if (item.photo) {
+          photo = item.photo;
+        }
+
+        return (
+          <DoctorItem
+            key={index}
+            {...item}
+            nom={item.nom}
+            photo={photo}
+            id={item.uid}
+          />
+        );
+      });
+  };
 
   // === handlePageClick ===
   const handlePageClick = ({ selected }: any) => {
@@ -291,7 +302,7 @@ const SearchDoctor = () => {
 
       {/* =================== Pagination Section =================== */}
       <section className="PaginationSection">
-        {nbrResulat !== 0 && displayDoctors}
+        {nbrResulat !== 0 && clicked && displayDoctors()}
 
         {nbrResulat !== 0 && (
           <ReactPaginate

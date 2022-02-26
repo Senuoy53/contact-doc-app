@@ -49,6 +49,7 @@ section {
   background-color: #fff;
   overflow: hidden;
   border-radius: 0.25em;
+
   /* border: 1px solid #777; */
 }
 
@@ -126,4 +127,67 @@ section {
 
 #resultat #error {
   color: #d8000c;
+}
+
+/* -----------Media query mobile */
+@media only screen and (max-width: 380px) {
+  section {
+    padding: 1.5rem 1%;
+  }
+
+  .searchForm {
+    flex-direction: column;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    height: 200px;
+    gap: 5%;
+  }
+}
+
+/* -----------Media query desktop820 */
+@media only screen and (max-width: 860px) {
+  section {
+    padding: 1.5rem 1%;
+  }
+}
+
+/* -----------Media query tablette */
+/* @media only screen and (max-width: 768px) {
+  section {
+    padding: 1.5rem 1%;
+  }
+} */
+
+/* -----------Media query tablette */
+@media only screen and (max-width: 630px) {
+  section {
+    /* padding: 1.5rem 2%; */
+  }
+  .searchForm {
+    padding: 0 2%;
+    gap: 2%;
+  }
+
+  .select select {
+    font-size: 11px;
+  }
+
+  .select::after {
+    padding: 0 0.5em;
+  }
+}
+
+/* -----------Media query tablette */
+@media only screen and (max-width: 540px) {
+  section {
+    padding: 1.5rem 1%;
+  }
+
+  .searchForm {
+    flex-direction: column;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    height: 200px;
+    gap: 5%;
+  }
 }

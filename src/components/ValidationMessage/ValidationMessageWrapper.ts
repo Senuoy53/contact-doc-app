@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { theme } from "../../styles/global-styles";
+import { mobile } from "../../styles/responsive";
 
 export const ValidationMessageWrapper = styled.div`
   position: fixed;
@@ -16,6 +17,9 @@ export const ValidationMessageWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
+  /* Media query */
+  ${mobile({})}
+
   .popup {
     width: 450px;
     padding: 20px;
@@ -31,6 +35,12 @@ export const ValidationMessageWrapper = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    /* Media query */
+    ${mobile({
+      width: "250px",
+      padding: "10px",
+    })}
   }
 
   .dialog-btn {

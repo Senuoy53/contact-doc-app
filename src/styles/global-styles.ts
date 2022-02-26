@@ -23,6 +23,9 @@ export const theme = {
     Black: "#000",
     White: "#fff",
     red: "#d8000c",
+    GreenTel: "#059581",
+    BleuMessage: "#7194B5",
+    RedAddress: "#B16157",
   },
 };
 

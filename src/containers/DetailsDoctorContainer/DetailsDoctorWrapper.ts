@@ -1,9 +1,13 @@
 import styled from "styled-components";
-import { theme } from "../../styles/global-styles";
-import { ProgressType } from "../../utils/types";
+import { mobile, tablette768, tablette530 } from "../../styles/responsive";
 
 const DetailsDoctorWrapper = styled.section`
   padding: 1.5rem 9%;
+
+  /* Media Query */
+  ${tablette768({
+    padding: "1.5rem 1%",
+  })}
 
   .register-form {
     background: ${({ theme }) => theme.colors.White};
@@ -39,6 +43,9 @@ const DetailsDoctorWrapper = styled.section`
     display: flex;
     /* align-items: center; */
     justify-content: space-between;
+    ${mobile({
+      flexDirection: "column-reverse",
+    })}
   }
 
   .top,
@@ -52,6 +59,10 @@ const DetailsDoctorWrapper = styled.section`
     display: flex;
     flex-direction: column;
     gap: 15px;
+
+    ${mobile({
+      marginTop: "30px",
+    })}
   }
   .input-box {
     display: flex;
@@ -60,6 +71,9 @@ const DetailsDoctorWrapper = styled.section`
     gap: 15px;
   }
   label {
+    ${tablette530({
+      fontSize: "14px",
+    })}
   }
   .input-box span {
     color: red;
@@ -85,6 +99,9 @@ const DetailsDoctorWrapper = styled.section`
     padding: 10px;
     outline-color: ${({ theme }) => theme.colors.GreenBgColor};
     border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    ${mobile({
+      width: "100%",
+    })}
   }
 
   .t-right {
@@ -110,6 +127,12 @@ const DetailsDoctorWrapper = styled.section`
 
   img {
     /* width: 100%; */
+  }
+
+  .bottom textarea {
+    ${mobile({
+      width: "100%",
+    })}
   }
 `;
 

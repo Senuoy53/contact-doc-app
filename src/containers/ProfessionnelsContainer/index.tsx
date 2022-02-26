@@ -104,19 +104,8 @@ const ProfessionnelsContainer = () => {
               diplomes: item.diplomes,
             });
           });
-          // setFormValues({
-          //   // nom: doc.data().nom,
-          //   nom: doctors.nom,
-          //   email: doc.data().email,
-          //   specialite: doc.data().specialite,
-          //   ville: doc.data().ville,
-          //   tel: doc.data().tel,
-          //   adresse: doc.data().adresse,
-          //   siteweb: doc.data().siteweb,
-          //   ouverture: doc.data().ouverture,
-          //   diplomes: doc.data().diplomes,
-          // });
-          console.log("profileImg", doc.data().photo);
+
+          // console.log("profileImg", doc.data().photo);
           if (doc.data().photo) {
             setProfileImg(doc.data().photo);
           }
@@ -217,7 +206,7 @@ const ProfessionnelsContainer = () => {
             alert(err.message);
           });
       } else if (imageFile) {
-        console.log("imagefile ", imageFile);
+        // console.log("imagefile ", imageFile);
 
         // upload photo to firebase storage
         const uploadPhoto = storage

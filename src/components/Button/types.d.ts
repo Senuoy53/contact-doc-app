@@ -4,5 +4,5 @@ interface ButtonProps {
   className: string;
   name?: string;
   id?: string;
-  onClick: (e: any) => void;
+  onClick?: (e: any) => void;
 }

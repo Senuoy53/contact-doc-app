@@ -1,9 +1,14 @@
 import styled from "styled-components";
 import { theme } from "../../styles/global-styles";
 import { ProgressType } from "../../utils/types";
+import { mobile, tablette630, tablette768 } from "../../styles/responsive";
 
 const ProfessionnelsContainerWrapper = styled.section`
   padding: 1.5rem 9%;
+  /* Media Query */
+  ${tablette768({
+    padding: "1.5rem 1%",
+  })}
 
   .register-form {
     background: ${({ theme }) => theme.colors.White};
@@ -39,6 +44,13 @@ const ProfessionnelsContainerWrapper = styled.section`
     display: flex;
     /* align-items: center; */
     justify-content: space-between;
+    ${mobile({
+      flexDirection: "column-reverse",
+    })}
+    ${tablette630({
+      justifyContent: "flex-end",
+      gap: "50px",
+    })}
   }
 
   .top,
@@ -52,6 +64,9 @@ const ProfessionnelsContainerWrapper = styled.section`
     display: flex;
     flex-direction: column;
     gap: 15px;
+    ${mobile({
+      marginTop: "30px",
+    })}
   }
   .input-box {
     display: flex;
@@ -60,6 +75,9 @@ const ProfessionnelsContainerWrapper = styled.section`
     gap: 15px;
   }
   label {
+    ${tablette768({
+      fontSize: "12px",
+    })}
   }
   .input-box span {
     color: red;
@@ -85,6 +103,9 @@ const ProfessionnelsContainerWrapper = styled.section`
     padding: 10px;
     outline-color: ${({ theme }) => theme.colors.GreenBgColor};
     border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    ${mobile({
+      width: "100%",
+    })}
   }
 
   .t-right {
@@ -157,6 +178,12 @@ const ProfessionnelsContainerWrapper = styled.section`
     &:hover {
       background: ${({ theme }) => theme.colors.Gray};
     }
+  }
+
+  .bottom textarea {
+    ${mobile({
+      width: "100%",
+    })}
   }
 `;
 

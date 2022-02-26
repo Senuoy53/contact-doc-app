@@ -7,19 +7,18 @@ import {
   faUser,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../Button";
 import { firebaseAuth, firebaseService } from "../../services/firebaseService";
-import { Doctor, ValuesType } from "../../utils/types";
+import { ValuesType } from "../../utils/types";
 import { toast } from "react-toastify";
 import ErrorComp from "../ErrorComp";
 import { collections } from "../../utils/constants";
 // current User
-import { currentUser } from "../../services/firebaseService";
+
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setDoctors } from "../../containers/SearchDoctor/actions";
 
 const Navbar = () => {
   // Usestate
@@ -104,7 +103,7 @@ const Navbar = () => {
               // Fermer login form
               setToggleLogin(!toggleLogin);
 
-              res && dispatch(setDoctors(doc.data() as Doctor[]));
+              // res && dispatch(setDoctors(doc.data() as Doctor[]));
               setFormValues(initialValues);
               history("/professionnels");
             });
@@ -135,7 +134,7 @@ const Navbar = () => {
         DocContact
       </Link>
 
-      <Nav>
+      <Nav className={`${toggleMenu ? "active" : ""}`}>
         <NavLink to="/home">Home</NavLink>
         {auth.currentUser && (
           <NavLink to="/professionnels">Professionnels</NavLink>
@@ -171,7 +170,7 @@ const Navbar = () => {
         <h3>login form</h3>
         <input
           type="email"
-          placeholder="enter your email"
+          placeholder="Email"
           className="box"
           name="email"
           value={formValues.email}
@@ -180,7 +179,7 @@ const Navbar = () => {
         {formErrors.email && <ErrorComp>{formErrors.email}</ErrorComp>}
         <input
           type="password"
-          placeholder="enter your password"
+          placeholder="Mot de passe"
           className="box"
           name="password"
           value={formValues.password}
