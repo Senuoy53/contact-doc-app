@@ -8,7 +8,7 @@ import { theme } from "./styles/global-styles";
 import Register from "./pages/Register";
 import Professionsels from "./pages/Professionnels";
 import Contact from "./pages/Contact";
-import { auth } from "./firebase";
+
 import DetailsDoctor from "./pages/DetailsDoctor";
 
 const App = () => {

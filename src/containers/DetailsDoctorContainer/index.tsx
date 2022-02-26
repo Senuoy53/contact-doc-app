@@ -51,7 +51,7 @@ const DetailsDoctorContainer = () => {
 
   // useEffect
   useEffect(() => {
-    console.log("uid", id);
+    // console.log("uid", id);
     setLoading(true);
     getOne(id)
       .then((querySnapshot) => {
