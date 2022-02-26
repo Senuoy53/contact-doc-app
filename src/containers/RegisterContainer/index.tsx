@@ -133,7 +133,7 @@ const RegisterContainer = () => {
 
         // =======  if the image is  selected =======
       } else {
-        console.log("there is an imageFile", imageFile);
+        // console.log("there is an imageFile", imageFile);
         // SignUp
         signUp({
           email: formValues.email,
