@@ -107,6 +107,14 @@ const RegisterContainerWrapper = styled.section`
     border: 0.1rem solid rgba(0, 0, 0, 0.1);
   }
 
+  .disabled {
+    color: #666;
+  }
+
+  /* .box option:disabled {
+    color: #666;
+  } */
+
   .capitalize {
     text-transform: capitalize;
   }

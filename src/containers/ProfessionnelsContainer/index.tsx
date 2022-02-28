@@ -14,7 +14,7 @@ import { createStructuredSelector } from "reselect";
 import { makeSelectDoctorsData } from "../SearchDoctor/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Loading";
-import { HoraireData } from "../../utils/constants";
+import { HoraireData, VilleData } from "../../utils/constants";
 import ValidationMessage from "../../components/ValidationMessage";
 import { useNavigate } from "react-router-dom";
 import { setDoctors } from "../SearchDoctor/actions";
@@ -339,7 +339,7 @@ const ProfessionnelsContainer = () => {
     }
 
     if (!values.ville) {
-      errors.ville = "Veuillez saisir une ville";
+      errors.ville = "Veuillez sélectionner une ville";
     }
 
     if (!values.tel) {
@@ -411,14 +411,21 @@ const ProfessionnelsContainer = () => {
                 <label htmlFor="">
                   Ville :<span>*</span>
                 </label>
-                <input
-                  type="text"
-                  placeholder="Ville"
-                  className="box capitalize"
+
+                <select
+                  id="ville"
+                  defaultValue={formValues.ville}
+                  className={`box ${!formValues.ville ? "disabled" : ""}   `}
                   name="ville"
-                  value={formValues.ville}
                   onChange={handleChange}
-                />
+                >
+                  <option value="Sélectionner une ville" disabled>
+                    Sélectionner une ville
+                  </option>
+                  {VilleData.map((ville, index) => {
+                    return <option key={index}>{ville}</option>;
+                  })}
+                </select>
               </div>
               {formErrors.ville && <ErrorComp>{formErrors.ville}</ErrorComp>}
               <div className="input-box">
