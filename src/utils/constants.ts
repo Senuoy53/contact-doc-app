@@ -62,4 +62,36 @@ const VilleData = [
   "Zagora",
 ];
 
-export { collections, HoraireData, VilleData };
+const DoctorData = [
+  "Cardiologue",
+  "Cardiologue pédiatrique,",
+  "Cardiologue rythmologue",
+  "Chirurgien maxillo-facial",
+  "Chirurgien orthopédiste et traumatologue",
+  "Chirurgien viscéral",
+  "Chirurgien viscéral pédiatrique",
+  "Dentiste",
+  "Dermatologue",
+  "Endodontiste",
+  "Gynécologue",
+  "Homéopathe",
+  "Hypnothérapeute",
+  "Kinésithérapeute",
+  "Médecin esthétique",
+  "Médecin physique et de réadaptation",
+  "Neurologue",
+  "Nutritionniste",
+  "Occlusodontiste",
+  "ORL",
+  "Orthodontiste",
+  "Pédiatre",
+  "Pneumologue",
+  "Psychiatre",
+  "Psychologue",
+  "Psychothérapeute",
+  "Rhumatologue",
+  "Stomatologue",
+  "Thérapeute",
+];
+
+export { collections, HoraireData, VilleData, DoctorData };

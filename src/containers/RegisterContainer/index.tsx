@@ -9,7 +9,7 @@ import { storage } from "../../firebase";
 import { collections } from "../../utils/constants";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { HoraireData, VilleData } from "../../utils/constants";
+import { HoraireData, VilleData, DoctorData } from "../../utils/constants";
 
 const RegisterContainer = () => {
   const [profileImg, setProfileImg] = useState<any>(profil);
@@ -219,7 +219,7 @@ const RegisterContainer = () => {
     }
 
     if (!values.specialite) {
-      errors.specialite = "Veuillez saisir une spécialité  ";
+      errors.specialite = "Veuillez sélectionner une spécialité  ";
     }
 
     if (!values.ville) {
@@ -291,14 +291,21 @@ const RegisterContainer = () => {
               <label htmlFor="">
                 Spécialité :<span>*</span>
               </label>
-              <input
-                type="text"
-                placeholder="Spécialité"
-                className="box capitalize"
+
+              <select
+                id="specialite"
+                defaultValue="Sélectionner une spécialité"
+                className={`box ${!formValues.specialite ? "disabled" : ""}   `}
                 name="specialite"
-                value={formValues.specialite}
                 onChange={handleChange}
-              />
+              >
+                <option value="Sélectionner une spécialité" disabled>
+                  Sélectionner une spécialité
+                </option>
+                {DoctorData.map((specialite, index) => {
+                  return <option key={index}>{specialite}</option>;
+                })}
+              </select>
             </div>
             {formErrors.specialite && (
               <ErrorComp>{formErrors.specialite}</ErrorComp>

@@ -14,7 +14,7 @@ import { createStructuredSelector } from "reselect";
 import { makeSelectDoctorsData } from "../SearchDoctor/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Loading";
-import { HoraireData, VilleData } from "../../utils/constants";
+import { HoraireData, VilleData, DoctorData } from "../../utils/constants";
 import ValidationMessage from "../../components/ValidationMessage";
 import { useNavigate } from "react-router-dom";
 import { setDoctors } from "../SearchDoctor/actions";
@@ -335,7 +335,7 @@ const ProfessionnelsContainer = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
     if (!values.specialite) {
-      errors.specialite = "Veuillez saisir une spécialité  ";
+      errors.specialite = "Veuillez sélectionner une spécialité  ";
     }
 
     if (!values.ville) {
@@ -395,14 +395,22 @@ const ProfessionnelsContainer = () => {
                 <label htmlFor="">
                   Spécialité :<span>*</span>
                 </label>
-                <input
-                  type="text"
-                  placeholder="Spécialité"
-                  className="box capitalize"
+                <select
+                  id="specialite"
+                  defaultValue={formValues.specialite}
+                  className={`box ${
+                    !formValues.specialite ? "disabled" : ""
+                  }   `}
                   name="specialite"
-                  value={formValues.specialite}
                   onChange={handleChange}
-                />
+                >
+                  <option value="Sélectionner une spécialité" disabled>
+                    Sélectionner une spécialité
+                  </option>
+                  {DoctorData.map((specialite, index) => {
+                    return <option key={index}>{specialite}</option>;
+                  })}
+                </select>
               </div>
               {formErrors.specialite && (
                 <ErrorComp>{formErrors.specialite}</ErrorComp>
