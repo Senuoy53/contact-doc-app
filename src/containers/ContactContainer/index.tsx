@@ -83,7 +83,7 @@ const ContactContainer = () => {
       errors.user_subject = "Veuillez saisir un sujet";
     }
     if (!values.user_email) {
-      errors.user_email = "Veuillez saisir un email";
+      errors.user_email = "Veuillez saisir votre email";
     } else if (!regex.test(values.user_email)) {
       errors.user_email = "Ce n'est pas un format d'email valide !!!";
     }
